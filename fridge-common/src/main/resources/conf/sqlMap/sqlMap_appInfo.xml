@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IAppInfoDao">
+
+    <insert id="addAppInfo">
+        <![CDATA[
+			insert into app_info(id,app_name,app_version,app_info,app_path,update_time)
+			values(#{id},#{app_name},#{app_version},#{app_info},#{app_path},#{update_time})
+		]]>
+    </insert>
+</mapper>
