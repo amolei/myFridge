@@ -19,6 +19,8 @@
     <url>http://maven.apache.org/</url>
     <inceptionYear>2001</inceptionYear>
 
+
+
     <distributionManagement>
         <site>
             <id>website</id>
@@ -27,7 +29,11 @@
     </distributionManagement>
 
     <properties>
+        <!-- 文件拷贝时的编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译时的编码 -->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <spring.version>4.0.6.RELEASE</spring.version>
         <mybatis.version>3.4.0</mybatis.version>
         <slf4j.version>1.7.7</slf4j.version>
@@ -208,4 +214,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
