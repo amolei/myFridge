@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * Created by 111 on 16/6/1.
  */
 @Service("appInfoService")
-public class AppInfoDaoImpl implements AppInfoService {
+public class AppInfoServiceImpl implements AppInfoService {
 
     @Resource
     private IAppInfoDao appInfoDao;
