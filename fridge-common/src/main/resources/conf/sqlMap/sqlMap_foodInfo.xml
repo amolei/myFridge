@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IFoodInfoDao">
+    <resultMap type="com.jiangjun.fridge.dto.FoodInfoDto" id="foodInfoMap">
+        <id property="id" column="id"/>
+        <result property="kind_id" column="kind_id"/>
+        <result property="food_name" column="food_name"/>
+        <result property="food_img" column="food_img" />
+        <result property="food_des" column="food_des"/>
+        <result property="simple_name" column="simple_name"/>
+        <result property="hot" column="hot"/>
+    </resultMap>
+
+    <insert id="addFoodInfo">
+        <![CDATA[
+            insert into food_info(kind_id,food_name,food_img,food_des,simple_name,hot)
+            VALUES (#{kind_id},#{food_name},#{food_img},#{food_des},#{simple_name},#{hot})
+        ]]>
+    </insert>
+    <select id="list" resultMap="foodInfoMap">
+        <![CDATA[
+            select * from food_info order by id ASC
+        ]]>
+     </select>
+    <select id="listByKindId" resultMap="foodInfoMap">
+        <![CDATA[
+            select * from food_info where kind_id = #{kind_id}
+        ]]>
+    </select>
+
+</mapper>

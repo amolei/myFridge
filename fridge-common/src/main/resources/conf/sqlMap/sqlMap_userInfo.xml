@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IUserInfoDao">
+    <resultMap type="com.jiangjun.fridge.dto.UserInfoDto" id="userInfoMap">
+        <id property="id" column="id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="nick_name" column="nick_name"/>
+        <result property="password" column="password" />
+        <result property="image_path" column="image_path"/>
+        <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <insert id="addUserInfo">
+        <![CDATA[
+            insert into user_info(user_name,nick_name,password,image_path,update_time)
+            VALUES (#{user_name},#{nick_name},#{password},#{image_path},#{update_time})
+        ]]>
+    </insert>
+    <select id="list" resultMap="userInfoMap">
+        <![CDATA[
+            select * from user_info order by id ASC
+        ]]>
+     </select>
+    <select id="queryByUserName" resultMap="userInfoMap">
+        <![CDATA[
+            select * from user_info where user_name = #{user_name}
+        ]]>
+    </select>
+
+</mapper>

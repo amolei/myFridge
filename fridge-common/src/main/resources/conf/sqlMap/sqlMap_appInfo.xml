@@ -6,8 +6,9 @@
 
     <insert id="addAppInfo">
         <![CDATA[
-			insert into app_info(id,app_name,app_version,app_info,app_path,update_time)
-			values(#{id},#{app_name},#{app_version},#{app_info},#{app_path},#{update_time})
-		]]>
+			insert into app_info(app_name,app_version,app_info,app_path,update_time)
+			values(#{app_name},#{app_version},#{app_info},#{app_path},#{update_time})
+
+        ]]>
     </insert>
 </mapper>

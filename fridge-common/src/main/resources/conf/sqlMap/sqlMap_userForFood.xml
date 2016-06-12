@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IUserForFoodDao">
+    <resultMap type="com.jiangjun.fridge.dto.UserForFoodDto" id="userForFoodMap">
+        <id property="id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="food_id" column="food_id"/>
+        <result property="num" column="num" />
+        <result property="weight" column="weight"/>
+        <result property="create_time" column="create_time"/>
+        <result property="past_time" column="past_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="addUserForFood">
+        <![CDATA[
+            insert into user_for_food(user_id,food_id,num,weight,create_time,past_time,status)
+            VALUES (#{user_id},#{food_id},#{num},#{weight},#{create_time},#{past_time},#{status})
+        ]]>
+    </insert>
+    <select id="list" resultMap="userForFoodMap">
+        <![CDATA[
+            select * from user_for_food order by id ASC
+        ]]>
+     </select>
+
+
+</mapper>
