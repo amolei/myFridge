@@ -1,5 +1,8 @@
 package com.jiangjun.fridge.dto;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -14,6 +17,8 @@ public class AppInfo {
     private String app_path;
     private Date update_time;
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     public Long getId() {
         return id;
     }
