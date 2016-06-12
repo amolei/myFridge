@@ -25,7 +25,6 @@ public class AppInfoTest {
     @Test
     public void createTest(){
         AppInfo appInfo = new AppInfo();
-        appInfo.setId(1L);
         appInfo.setApp_info("test_info");
         appInfo.setApp_path("test_path");
         appInfo.setApp_name("test_name");
