@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IShopListDao">
+    <resultMap type="com.jiangjun.fridge.dto.ShopListDto" id="shopListMap">
+        <id property="id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="shop_info_name" column="shop_info_name"/>
+        <result property="shop_info_date" column="shop_info_date" />
+    </resultMap>
+
+    <insert id="addShopList">
+        <![CDATA[
+            insert into shop_list(user_id,shop_info_name,shop_info_date)
+            VALUES (#{user_id},#{shop_info_name},#{shop_info_date})
+        ]]>
+    </insert>
+    <select id="list" resultMap="shopListMap">
+        <![CDATA[
+            select * from shop_list order by id ASC
+        ]]>
+     </select>
+
+</mapper>
