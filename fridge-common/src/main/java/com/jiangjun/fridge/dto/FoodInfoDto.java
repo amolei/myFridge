@@ -9,7 +9,7 @@ import javax.persistence.Id;
  */
 public class FoodInfoDto {
 
-    private Long id;
+    private Long food_id;
     private Long kind_id;
     private String food_name;
     private String food_img;
@@ -19,12 +19,12 @@ public class FoodInfoDto {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getFood_id() {
+        return food_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFood_id(Long food_id) {
+        this.food_id = food_id;
     }
 
     public Long getKind_id() {

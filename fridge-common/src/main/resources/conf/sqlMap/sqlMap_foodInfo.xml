@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiangjun.fridge.dao.IFoodInfoDao">
     <resultMap type="com.jiangjun.fridge.dto.FoodInfoDto" id="foodInfoMap">
-        <id property="id" column="id"/>
+        <id property="food_id" column="id"/>
         <result property="kind_id" column="kind_id"/>
         <result property="food_name" column="food_name"/>
         <result property="food_img" column="food_img" />
