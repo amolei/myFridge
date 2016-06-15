@@ -28,4 +28,8 @@ public class FoodInfoServiceImpl implements FoodInfoService {
     public List<FoodInfoDto> listByKindId(Long kind_id) {
         return foodInfoDao.listByKindId(kind_id);
     }
+
+    public FoodInfoDto getFoodInfoById(long food_id) {
+        return foodInfoDao.getFoodInfoById(food_id);
+    }
 }

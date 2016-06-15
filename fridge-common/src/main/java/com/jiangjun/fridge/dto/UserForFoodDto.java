@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class UserForFoodDto {
 
-    private Long id;
+    private Long user_for_food_id;
     private Long user_id;
     private Long food_id;
     private Integer num;
@@ -18,15 +18,16 @@ public class UserForFoodDto {
     private Date create_time;
     private Date past_time;
     private Integer status;
+    private FoodInfoDto food_info;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getUser_for_food_id() {
+        return user_for_food_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_for_food_id(Long user_for_food_id) {
+        this.user_for_food_id = user_for_food_id;
     }
 
     public Long getUser_id() {
@@ -83,5 +84,13 @@ public class UserForFoodDto {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public FoodInfoDto getFood_info() {
+        return food_info;
+    }
+
+    public void setFood_info(FoodInfoDto food_info) {
+        this.food_info = food_info;
     }
 }

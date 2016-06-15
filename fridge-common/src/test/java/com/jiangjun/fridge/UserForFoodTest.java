@@ -49,7 +49,7 @@ public class UserForFoodTest {
             for (FoodInfoDto fi : foodInfoDtos) {
                 UserForFoodDto userForFoodDto = new UserForFoodDto();
                 userForFoodDto.setUser_id(ui.getId());
-                userForFoodDto.setFood_id(fi.getId());
+                userForFoodDto.setFood_id(fi.getFood_id());
                 userForFoodDto.setNum(3);
                 userForFoodDto.setWeight("10");
                 userForFoodDto.setCreate_time(new Date());

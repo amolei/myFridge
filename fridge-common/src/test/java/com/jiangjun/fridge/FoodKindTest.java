@@ -27,9 +27,10 @@ public class FoodKindTest {
     @Test
     public void createTest() {
         FoodKindDto foodKindDto = new FoodKindDto();
-        foodKindDto.setFood_kind_name("蔬菜");
-        foodKindDto.setFood_kind_info("蔬菜蔬菜");
-        foodKindDto.setSimple_name("SC");
+        foodKindDto.setFood_kind_name("海鲜");
+        foodKindDto.setFood_kind_info("海鲜海鲜");
+        foodKindDto.setSimple_name("HX");
+        foodKindDto.setFood_kind_img("hx.png");
         foodKindService.addFoodKind(foodKindDto);
     }
 
@@ -38,7 +39,7 @@ public class FoodKindTest {
         List<FoodKindDto> list = foodKindService.list();
         for (FoodKindDto f : list) {
             try {
-                System.out.println(f.getId() + ">>>" + f.getFood_kind_name() + ";" + f.getFood_kind_info());
+                System.out.println(f.getFood_kind_id() + ">>>" + f.getFood_kind_name() + ";" + f.getFood_kind_info() + ";" + f.getFood_kind_img());
             } catch (Exception e) {
                 e.printStackTrace();
             }

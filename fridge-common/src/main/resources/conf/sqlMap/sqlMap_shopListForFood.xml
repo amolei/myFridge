@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiangjun.fridge.dao.IShopListForFoodDao">
     <resultMap type="com.jiangjun.fridge.dto.ShopListForFoodDto" id="shopListForFoodMap">
-        <id property="id" column="id"/>
+        <id property="shop_list_for_food_id" column="id"/>
         <result property="shop_list_id" column="shop_list_id"/>
         <result property="food_id" column="food_id"/>
         <result property="status" column="status" />

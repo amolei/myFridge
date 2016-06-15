@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiangjun.fridge.dao.IShopListDao">
     <resultMap type="com.jiangjun.fridge.dto.ShopListDto" id="shopListMap">
-        <id property="id" column="id"/>
+        <id property="shop_list_id" column="id"/>
         <result property="user_id" column="user_id"/>
         <result property="shop_info_name" column="shop_info_name"/>
         <result property="shop_info_date" column="shop_info_date" />
@@ -21,5 +21,9 @@
             select * from shop_list order by id ASC
         ]]>
      </select>
-
+    <select id="listByUserId" resultMap="shopListMap">
+        <![CDATA[
+          select * from shop_list where user_id = #{user_id} ORDER  BY id ASC
+        ]]>
+    </select>
 </mapper>

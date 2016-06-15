@@ -14,4 +14,6 @@ public interface IShopListDao {
     public void addShopList(ShopListDto shopListDto);
 
     public List<ShopListDto> list();
+
+    public List<ShopListDto> listByUserId(long user_id);
 }

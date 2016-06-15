@@ -36,7 +36,7 @@ public class ShopListForFoodTest {
         List<ShopListDto> shopListDtos = shopListService.list();
         List<FoodInfoDto> foodInfoDtos = foodInfoService.list();
         for(ShopListDto s:shopListDtos){
-            long shop_list_id = s.getId();
+            long shop_list_id = s.getShop_list_id();
             for(FoodInfoDto f:foodInfoDtos){
                 long food_id = f.getFood_id();
                 ShopListForFoodDto shopListForFoodDto = new ShopListForFoodDto();

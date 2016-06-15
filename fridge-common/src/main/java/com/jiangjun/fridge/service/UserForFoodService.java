@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserForFoodService {
     public void addUserForFood(UserForFoodDto userForFoodDto);
     public List<UserForFoodDto> list();
+    public List<UserForFoodDto> listByUserId(long user_id);
 }

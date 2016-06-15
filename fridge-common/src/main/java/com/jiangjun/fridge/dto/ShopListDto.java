@@ -10,19 +10,19 @@ import java.util.Date;
  */
 public class ShopListDto {
 
-    private Long id;
+    private Long shop_list_id;
     private Long user_id;
     private String shop_info_name;
     private Date shop_info_date;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getShop_list_id() {
+        return shop_list_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setShop_list_id(Long shop_list_id) {
+        this.shop_list_id = shop_list_id;
     }
 
     public Long getUser_id() {

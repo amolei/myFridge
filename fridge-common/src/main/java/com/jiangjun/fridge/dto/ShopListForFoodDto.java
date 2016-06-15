@@ -9,19 +9,20 @@ import javax.persistence.Id;
  */
 public class ShopListForFoodDto {
 
-    private Long id;
+    private Long shop_list_for_food_id;
     private Long shop_list_id;
     private Long food_id;
     private Integer status;
+    private FoodInfoDto food_info;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getShop_list_for_food_id() {
+        return shop_list_for_food_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setShop_list_for_food_id(Long shop_list_for_food_id) {
+        this.shop_list_for_food_id = shop_list_for_food_id;
     }
 
     public Long getShop_list_id() {
@@ -46,5 +47,13 @@ public class ShopListForFoodDto {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public FoodInfoDto getFood_info() {
+        return food_info;
+    }
+
+    public void setFood_info(FoodInfoDto food_info) {
+        this.food_info = food_info;
     }
 }

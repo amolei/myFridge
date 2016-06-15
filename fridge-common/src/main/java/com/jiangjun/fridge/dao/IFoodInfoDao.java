@@ -16,4 +16,6 @@ public interface IFoodInfoDao {
     public List<FoodInfoDto> list();
 
     public List<FoodInfoDto> listByKindId(Long kind_id);
+
+    public FoodInfoDto getFoodInfoById(long food_id);
 }

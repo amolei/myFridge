@@ -29,5 +29,10 @@
             select * from food_info where kind_id = #{kind_id}
         ]]>
     </select>
+    <select id="getFoodInfoById" resultMap="foodInfoMap">
+      <![CDATA[
+          select * from food_info where id = #{food_id}
+        ]]>
+    </select>
 
 </mapper>
