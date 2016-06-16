@@ -31,6 +31,15 @@ public class ShopListForFoodTest {
         foodInfoService = (FoodInfoService) context.getBean("foodInfoService");
     }
 
+
+    @Test
+    public void createQuery(){
+        long shop_list_id = 3;
+        long food_id = 8;
+        ShopListForFoodDto shopListForFoodDto = shopListForFoodService.queryByShopListAndFoodId(shop_list_id, food_id);
+        System.out.println(shopListForFoodDto.getShop_list_for_food_id());
+    }
+
     @Test
     public void createAdd(){
         List<ShopListDto> shopListDtos = shopListService.list();
