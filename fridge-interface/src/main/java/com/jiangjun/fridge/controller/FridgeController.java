@@ -43,6 +43,68 @@ public class FridgeController {
     private IShopListForFoodDao shopListForFoodDao;
 
     /**
+     * 从冰箱中删除食物
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "delFoodFromFridgeService")
+    public void delFoodFromFridgeService(HttpServletRequest request,HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("jsonRequest>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        long user_id = jsonRequest.getLong("user_id");
+        JSONArray items = jsonRequest.getJSONArray("items");
+        for(int i=0;i<items.size();i++){
+            long food_id = items.getJSONObject(i).getLong("food_id");
+            userForFoodDao.delFood(user_id,food_id);
+        }
+        try{
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            ResBody res = new ResBody();
+            res.setResCode(1);
+            res.setResMsg("success");
+            item.put("res",res);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置购物单中的食物是否购买标志
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "setFoodStatusByShopListService")
+    public void setFoodStatusByShopListService(HttpServletRequest request,HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("jsonRequest>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        long shop_list_id = jsonRequest.getLong("shop_list_id");
+        long food_id = jsonRequest.getLong("food_id");
+        int status = jsonRequest.getInteger("status");
+        ShopListForFoodDto shopListForFoodDto = shopListForFoodDao.queryByShopListAndFoodId(shop_list_id, food_id);
+        shopListForFoodDto.setStatus(status);
+        shopListForFoodDao.updateStatus(shopListForFoodDto);
+        try{
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            ResBody res = new ResBody();
+            res.setResCode(1);
+            res.setResMsg("success");
+            item.put("res",res);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 添加食物到购物单
      */
     @RequestMapping(value = "addFoodShopListService")

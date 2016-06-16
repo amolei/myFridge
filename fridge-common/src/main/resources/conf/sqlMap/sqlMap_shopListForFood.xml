@@ -27,4 +27,18 @@
           SELECT * from shop_list_for_food where shop_list_id = #{shop_list_id} ORDER BY id ASC
         ]]>
     </select>
+
+    <select id="queryByShopListAndFoodId" resultMap="shopListForFoodMap">
+        <![CDATA[
+        select * from shop_list_for_food where shop_list_id = #{shop_list_id} and food_id = #{food_id}
+        ]]>
+    </select>
+
+    <update id="updateStatus">
+        <![CDATA[
+          update shop_list_for_food set
+          status = #{status}
+          where id = #{shop_list_for_food_id}
+        ]]>
+    </update>
 </mapper>

@@ -28,4 +28,8 @@ public class UserForFoodServiceImpl implements UserForFoodService {
     public List<UserForFoodDto> listByUserId(long user_id) {
         return userForFoodDao.listByUserId(user_id);
     }
+
+    public void delFood(long user_id, long food_id) {
+        userForFoodDao.delFood(user_id, food_id);
+    }
 }

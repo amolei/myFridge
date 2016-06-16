@@ -13,4 +13,8 @@ public interface ShopListForFoodService {
     public List<ShopListForFoodDto> list();
 
     public List<ShopListForFoodDto> listByShopListId(Long shop_list_id);
+
+    public ShopListForFoodDto queryByShopListAndFoodId(long shop_list_id,long food_id);
+
+    public void updateStatus(ShopListForFoodDto shopListForFoodDto);
 }
