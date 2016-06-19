@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface IShopListDao {
 
-    public void addShopList(ShopListDto shopListDto);
+    public Long addShopList(ShopListDto shopListDto);
 
     public List<ShopListDto> list();
 

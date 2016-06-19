@@ -10,21 +10,22 @@ import java.util.Date;
  */
 public class UserInfoDto {
 
-    private Long id;
+    private Long user_id;
     private String user_name;
     private String nick_name;
     private String password;
     private String image_path;
     private Date update_time;
 
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getUser_name() {

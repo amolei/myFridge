@@ -16,4 +16,6 @@ public interface IUserInfoDao {
     public List<UserInfoDto> list();
 
     public UserInfoDto queryByUserName(String user_name);
+
+    public UserInfoDto queryByUserId(long user_id);
 }

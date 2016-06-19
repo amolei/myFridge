@@ -13,11 +13,11 @@ public class UserForFoodDto {
     private Long user_for_food_id;
     private Long user_id;
     private Long food_id;
-    private Integer num;
-    private String weight;
+    private String num;
     private Date create_time;
     private Date past_time;
     private Integer status;
+    private String comment;
     private FoodInfoDto food_info;
 
     @Id
@@ -46,20 +46,12 @@ public class UserForFoodDto {
         this.food_id = food_id;
     }
 
-    public Integer getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(Integer num) {
+    public void setNum(String num) {
         this.num = num;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
     }
 
     public Date getCreate_time() {
@@ -92,5 +84,13 @@ public class UserForFoodDto {
 
     public void setFood_info(FoodInfoDto food_info) {
         this.food_info = food_info;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

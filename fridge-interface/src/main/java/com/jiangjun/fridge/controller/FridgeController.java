@@ -42,6 +42,9 @@ public class FridgeController {
     @Autowired
     private IShopListForFoodDao shopListForFoodDao;
 
+    @Autowired
+    private IUserInfoDao userInfoDao;
+
     /**
      * 从冰箱中删除食物
      * @param request
@@ -145,12 +148,26 @@ public class FridgeController {
         logger.info("jsonRequest>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
-        String shop_list_name = jsonRequest.getString("shop_list_name");
+        String user_name = userInfoDao.queryByUserId(user_id).getUser_name();
+        String shop_list_name = user_name + "'ShopList>" + new Date().getTime();
         ShopListDto shopListDto = new ShopListDto();
         shopListDto.setUser_id(user_id);
         shopListDto.setShop_info_name(shop_list_name);
         shopListDto.setShop_info_date(new Date());
         shopListDao.addShopList(shopListDto);
+        Long shop_list_id = shopListDto.getShop_list_id();
+        if(shop_list_id != null) {
+            JSONArray items = jsonRequest.getJSONArray("items");
+            for (int i = 0; i < items.size(); i++) {
+                JSONObject item = items.getJSONObject(i);
+                System.out.println(i + ">>" + item.toJSONString());
+                ShopListForFoodDto shopListForFoodDto = new ShopListForFoodDto();
+                shopListForFoodDto.setFood_id(item.getLong("food_id"));
+                shopListForFoodDto.setStatus(0);
+                shopListForFoodDto.setShop_list_id(shop_list_id);
+                shopListForFoodDao.addShopListForFood(shopListForFoodDto);
+            }
+        }
         try{
             response.setCharacterEncoding("utf-8");
             response.setContentType("text/json; charset=utf-8");
@@ -173,6 +190,11 @@ public class FridgeController {
      */
     @RequestMapping(value = "addFoodFridgeService")
     public void addFoodFridgeService(HttpServletRequest request,HttpServletResponse response){
+        try {
+            request.setCharacterEncoding("UTF-8");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         String jsonRequestStr = request.getParameter("jsonRequest");
         logger.info("jsonRequest>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
@@ -181,8 +203,8 @@ public class FridgeController {
         UserForFoodDto userForFoodDto = new UserForFoodDto();
         userForFoodDto.setUser_id(user_id);
         userForFoodDto.setFood_id(food_info.getLong("food_id"));
-        userForFoodDto.setNum(food_info.getInteger("num"));
-        userForFoodDto.setWeight(food_info.getString("weight"));
+        userForFoodDto.setNum(food_info.getString("num"));
+        userForFoodDto.setComment(food_info.getString("comment"));
         userForFoodDto.setPast_time(new Date(food_info.getLong("past_time")));
         userForFoodDto.setCreate_time(new Date());
         userForFoodDto.setStatus(1);

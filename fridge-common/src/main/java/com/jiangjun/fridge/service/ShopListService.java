@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ShopListService {
 
-    public void addShopList(ShopListDto shopListDto);
+    public Long addShopList(ShopListDto shopListDto);
 
     public List<ShopListDto> list();
 

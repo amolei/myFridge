@@ -17,8 +17,8 @@ public class ShopListServiceImpl implements ShopListService {
     @Autowired
     private IShopListDao shopListDao;
 
-    public void addShopList(ShopListDto shopListDto) {
-        shopListDao.addShopList(shopListDto);
+    public Long addShopList(ShopListDto shopListDto) {
+        return shopListDao.addShopList(shopListDto);
     }
 
     public List<ShopListDto> list() {

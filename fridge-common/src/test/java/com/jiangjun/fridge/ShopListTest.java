@@ -32,14 +32,16 @@ public class ShopListTest {
     @Test
     public void createAdd() {
         List<UserInfoDto> userInfoDtos = userInfoService.list();
-        for(UserInfoDto u:userInfoDtos){
-            long user_id = u.getId();
+        UserInfoDto u = userInfoService.queryByUserId(1);
+//        for(UserInfoDto u:userInfoDtos){
+            long user_id = u.getUser_id();
             ShopListDto shopListDto = new ShopListDto();
             shopListDto.setUser_id(user_id);
             shopListDto.setShop_info_name(u.getUser_name() + "的购物单");
             shopListDto.setShop_info_date(new Date());
-            shopListService.addShopList(shopListDto);
-        }
+            System.out.println(shopListService.addShopList(shopListDto));
+        System.out.println(shopListDto.getShop_list_id());
+//        }
     }
 
     @Test

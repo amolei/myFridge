@@ -48,11 +48,11 @@ public class UserForFoodTest {
         for (UserInfoDto ui : userInfoDtoList) {
             for (FoodInfoDto fi : foodInfoDtos) {
                 UserForFoodDto userForFoodDto = new UserForFoodDto();
-                userForFoodDto.setUser_id(ui.getId());
+                userForFoodDto.setUser_id(ui.getUser_id());
                 userForFoodDto.setFood_id(fi.getFood_id());
-                userForFoodDto.setNum(3);
-                userForFoodDto.setWeight("10");
+                userForFoodDto.setNum("3");
                 userForFoodDto.setCreate_time(new Date());
+                userForFoodDto.setComment(ui.getUser_id() + ">>描述描述>>" + fi.getFood_id());
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.DAY_OF_MONTH, 1);
                 userForFoodDto.setPast_time(c.getTime());

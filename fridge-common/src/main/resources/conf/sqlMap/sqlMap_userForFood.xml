@@ -8,16 +8,16 @@
         <result property="user_id" column="user_id"/>
         <result property="food_id" column="food_id"/>
         <result property="num" column="num" />
-        <result property="weight" column="weight"/>
         <result property="create_time" column="create_time"/>
         <result property="past_time" column="past_time"/>
+        <result property="comment" column="comment"/>
         <result property="status" column="status"/>
     </resultMap>
 
     <insert id="addUserForFood">
         <![CDATA[
-            insert into user_for_food(user_id,food_id,num,weight,create_time,past_time,status)
-            VALUES (#{user_id},#{food_id},#{num},#{weight},#{create_time},#{past_time},#{status})
+            insert into user_for_food(user_id,food_id,num,comment,create_time,past_time,status)
+            VALUES (#{user_id},#{food_id},#{num},#{comment},#{create_time},#{past_time},#{status})
         ]]>
     </insert>
     <select id="list" resultMap="userForFoodMap">

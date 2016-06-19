@@ -10,7 +10,7 @@
         <result property="shop_info_date" column="shop_info_date" />
     </resultMap>
 
-    <insert id="addShopList">
+    <insert id="addShopList" useGeneratedKeys="true" keyProperty="shop_list_id">
         <![CDATA[
             insert into shop_list(user_id,shop_info_name,shop_info_date)
             VALUES (#{user_id},#{shop_info_name},#{shop_info_date})
