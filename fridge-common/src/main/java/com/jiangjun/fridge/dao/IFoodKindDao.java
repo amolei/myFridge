@@ -14,4 +14,10 @@ public interface IFoodKindDao {
     public void addFoodKind(FoodKindDto foodKindDto);
 
     public List<FoodKindDto> list();
+
+    public FoodKindDto queryById(long kind_id);
+
+    public FoodKindDto queryByName(String food_kind_name);
+
+    public void delFoodKindById(long kind_id);
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class AppInfo {
 
-    private Long id;
+    private Long app_id;
     private String app_name;
     private String app_version;
     private String app_info;
@@ -19,12 +19,12 @@ public class AppInfo {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    public Long getId() {
-        return id;
+    public Long getApp_id() {
+        return app_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setApp_id(Long app_id) {
+        this.app_id = app_id;
     }
 
     public String getApp_name() {

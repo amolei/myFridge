@@ -32,4 +32,12 @@ public class FoodInfoServiceImpl implements FoodInfoService {
     public FoodInfoDto getFoodInfoById(long food_id) {
         return foodInfoDao.getFoodInfoById(food_id);
     }
+
+    public FoodInfoDto getFoodInfoByName(String food_name) {
+        return foodInfoDao.getFoodInfoByName(food_name);
+    }
+
+    public void delFoodInfoById(long food_id) {
+        foodInfoDao.delFoodInfoById(food_id);
+    }
 }

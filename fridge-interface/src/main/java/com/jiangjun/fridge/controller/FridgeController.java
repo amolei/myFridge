@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jiangjun on 16/6/14.
@@ -46,6 +44,56 @@ public class FridgeController {
     private IUserInfoDao userInfoDao;
 
     /**
+     * 从历史购物单中查询食品
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "queryHistoryFromShopList")
+    public void queryHistoryFromShopList(HttpServletRequest request,HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("setFoodStatusByShopListService>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        long user_id = jsonRequest.getLong("user_id");
+        //根据user_id查询出shoplist
+        List<ShopListDto> list = shopListDao.listByUserId(user_id);
+        Set<Long> food_ids = new HashSet<Long>();
+        //根据shoplist id查询出食物Id列表
+        for(ShopListDto s:list){
+            long shop_list_id = s.getShop_list_id();
+            List<ShopListForFoodDto> shopListForFoodDtos = shopListForFoodDao.listByShopListId(shop_list_id);
+            for(ShopListForFoodDto sL:shopListForFoodDtos){
+                food_ids.add(sL.getFood_id());
+            }
+        }
+        //根据食物ID列表查询食物信息列表
+        List<FoodInfoDto> foodInfoDtos = new ArrayList<FoodInfoDto>();
+        Iterator it = food_ids.iterator();
+        while(it.hasNext()){
+            Long food_id = (Long) it.next();
+            FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(food_id);
+            if(foodInfoDto != null) {
+                FoodKindDto foodKindDto = foodKindDao.queryById(foodInfoDto.getKind_id());
+                foodInfoDto.setKind_name(foodKindDto.getFood_kind_name());
+                foodInfoDtos.add(foodInfoDto);
+            }
+        }
+        try{
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            ResBody res = new ResBody();
+            res.setResCode(1);
+            res.setResMsg("success");
+            item.put("res", res);
+            item.put("items",foodInfoDtos);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 从冰箱中删除食物
      * @param request
      * @param response
@@ -53,7 +101,7 @@ public class FridgeController {
     @RequestMapping(value = "delFoodFromFridgeService")
     public void delFoodFromFridgeService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("delFoodFromFridgeService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
         JSONArray items = jsonRequest.getJSONArray("items");
@@ -84,7 +132,7 @@ public class FridgeController {
     @RequestMapping(value = "setFoodStatusByShopListService")
     public void setFoodStatusByShopListService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("setFoodStatusByShopListService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long shop_list_id = jsonRequest.getLong("shop_list_id");
         long food_id = jsonRequest.getLong("food_id");
@@ -113,7 +161,7 @@ public class FridgeController {
     @RequestMapping(value = "addFoodShopListService")
     public void addFoodShopListService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("addFoodShopListService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long shop_list_id = jsonRequest.getLong("shop_list_id");
         long food_id = jsonRequest.getLong("food_id");
@@ -145,7 +193,7 @@ public class FridgeController {
     @RequestMapping(value = "addShopListService")
     public void addShopListService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("addShopListService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
         String user_name = userInfoDao.queryByUserId(user_id).getUser_name();
@@ -159,10 +207,31 @@ public class FridgeController {
         if(shop_list_id != null) {
             JSONArray items = jsonRequest.getJSONArray("items");
             for (int i = 0; i < items.size(); i++) {
-                JSONObject item = items.getJSONObject(i);
-                System.out.println(i + ">>" + item.toJSONString());
                 ShopListForFoodDto shopListForFoodDto = new ShopListForFoodDto();
-                shopListForFoodDto.setFood_id(item.getLong("food_id"));
+                JSONObject item = items.getJSONObject(i);
+                long food_id;
+                if(item.getInteger("is_tmp") != null && item.getInteger("is_tmp") == 1){
+                    if(item.containsKey("food_id") && item.getLong("food_id") != null){
+                        food_id = item.getLong("food_id");
+                    }else {
+                        /**
+                         * 新加临时食品
+                         * 1.添加到临时食品库
+                         * 2.购物单绑定临时食品
+                         */
+                        FoodInfoDto tmp = new FoodInfoDto();
+                        tmp.setFood_name(item.getString("food_name"));
+                        tmp.setFood_des(item.getString("food_name"));
+                        tmp.setHot(0);
+                        tmp.setKind_id(item.getLong("kind_id"));
+                        tmp.setIs_tmp(1);
+                        foodInfoDao.addFoodInfo(tmp);
+                        food_id = tmp.getFood_id();
+                    }
+                }else {
+                    food_id = item.getLong("food_id");
+                }
+                shopListForFoodDto.setFood_id(food_id);
                 shopListForFoodDto.setStatus(0);
                 shopListForFoodDto.setShop_list_id(shop_list_id);
                 shopListForFoodDao.addShopListForFood(shopListForFoodDto);
@@ -196,19 +265,42 @@ public class FridgeController {
             e.printStackTrace();
         }
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("addFoodFridgeService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
-        JSONObject food_info = jsonRequest.getJSONObject("food_info");
-        UserForFoodDto userForFoodDto = new UserForFoodDto();
-        userForFoodDto.setUser_id(user_id);
-        userForFoodDto.setFood_id(food_info.getLong("food_id"));
-        userForFoodDto.setNum(food_info.getString("num"));
-        userForFoodDto.setComment(food_info.getString("comment"));
-        userForFoodDto.setPast_time(new Date(food_info.getLong("past_time")));
-        userForFoodDto.setCreate_time(new Date());
-        userForFoodDto.setStatus(1);
-        userForFoodDao.addUserForFood(userForFoodDto);
+        JSONArray food_infos = jsonRequest.getJSONArray("items");
+        for(int i=0;i<food_infos.size();i++){
+            JSONObject obj = food_infos.getJSONObject(i);
+            UserForFoodDto userForFoodDto = new UserForFoodDto();
+            long food_id;
+            if(obj.containsKey("is_tmp") && obj.getInteger("is_tmp") == 1){
+                if(obj.containsKey("food_id") && obj.getLong("food_id") != null){
+                    food_id = obj.getLong("food_id");
+                }else{
+                    //新增到食品库
+                    FoodInfoDto foodInfo_tmp = new FoodInfoDto();
+                    foodInfo_tmp.setFood_name(obj.getString("food_name"));
+                    foodInfo_tmp.setFood_des(obj.getString("food_name"));
+                    foodInfo_tmp.setKind_id(obj.getLong("kind_id"));
+                    foodInfo_tmp.setHot(0);
+                    foodInfo_tmp.setIs_tmp(1);
+                    foodInfoDao.addFoodInfo(foodInfo_tmp);
+                    food_id = foodInfo_tmp.getFood_id();
+                }
+            }else{
+                food_id = obj.getLong("food_id");
+            }
+            userForFoodDto.setUser_id(user_id);
+            userForFoodDto.setFood_id(food_id);
+            userForFoodDto.setNum(obj.getString("num"));
+            userForFoodDto.setComment(obj.getString("comment"));
+            userForFoodDto.setPast_time(new Date(obj.getLong("past_time")));
+            userForFoodDto.setCreate_time(new Date());
+            userForFoodDto.setStatus(1);
+            userForFoodDao.addUserForFood(userForFoodDto);
+        }
+
+
         try{
             response.setCharacterEncoding("utf-8");
             response.setContentType("text/json; charset=utf-8");
@@ -232,7 +324,7 @@ public class FridgeController {
     @RequestMapping(value = "queryShopInfoService")
     public void queryShopInfoService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("queryShopInfoService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long shop_list_id = jsonRequest.getLong("shop_list_id");
         List<ShopListForFoodDto> shopListForFoodDtos = shopListForFoodDao.listByShopListId(shop_list_id);
@@ -264,7 +356,7 @@ public class FridgeController {
     @RequestMapping(value = "queryShopListService")
     public void queryShopListService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("queryShopListService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
         List<ShopListDto> shopListDtos = shopListDao.listByUserId(user_id);
@@ -292,14 +384,20 @@ public class FridgeController {
     @RequestMapping(value = "queryFoodListService")
     public void queryFoodListService(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("queryFoodListService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long user_id = jsonRequest.getLong("user_id");
         List<UserForFoodDto> userForFoodDtos = userForFoodDao.listByUserId(user_id);
         for(UserForFoodDto u:userForFoodDtos){
             long food_id = u.getFood_id();
             FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(food_id);
-            u.setFood_info(foodInfoDto);
+            if(foodInfoDto != null) {
+                FoodKindDto foodKindDto = foodKindDao.queryById(foodInfoDto.getKind_id());
+                if(foodKindDto != null) {
+                    foodInfoDto.setKind_name(foodKindDto.getFood_kind_name());
+                    u.setFood_info(foodInfoDto);
+                }
+            }
         }
         try{
             response.setCharacterEncoding("utf-8");
@@ -325,7 +423,7 @@ public class FridgeController {
     @RequestMapping(value = "queryFoodListByKindService")
     public void queryFoodListByKind(HttpServletRequest request,HttpServletResponse response){
         String jsonRequestStr = request.getParameter("jsonRequest");
-        logger.info("jsonRequest>>>" + jsonRequestStr);
+        logger.info("queryFoodListByKindService>>>" + jsonRequestStr);
         JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
         long id = jsonRequest.getLong("food_kind_id");
         List<FoodInfoDto> list = foodInfoDao.listByKindId(id);
@@ -352,7 +450,7 @@ public class FridgeController {
      */
     @RequestMapping(value = "queryFoodKindsService")
     public void queryFoodKinds(HttpServletRequest request,HttpServletResponse response){
-        logger.info("jsonRequest>>>" + request.getParameter("jsonRequest"));
+        logger.info("queryFoodKindsService>>>" + request.getParameter("jsonRequest"));
         List<FoodKindDto> list = foodKindDao.list();
         try{
             response.setCharacterEncoding("utf-8");

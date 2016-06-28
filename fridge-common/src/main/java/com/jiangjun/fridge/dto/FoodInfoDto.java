@@ -16,6 +16,10 @@ public class FoodInfoDto {
     private String food_des;
     private String simple_name;
     private Integer hot;
+    private Integer is_tmp;
+
+    private FoodKindDto foodKindDto;
+    private String kind_name;
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -73,5 +77,29 @@ public class FoodInfoDto {
 
     public void setHot(Integer hot) {
         this.hot = hot;
+    }
+
+    public FoodKindDto getFoodKindDto() {
+        return foodKindDto;
+    }
+
+    public void setFoodKindDto(FoodKindDto foodKindDto) {
+        this.foodKindDto = foodKindDto;
+    }
+
+    public String getKind_name() {
+        return kind_name;
+    }
+
+    public void setKind_name(String kind_name) {
+        this.kind_name = kind_name;
+    }
+
+    public Integer getIs_tmp() {
+        return is_tmp;
+    }
+
+    public void setIs_tmp(Integer is_tmp) {
+        this.is_tmp = is_tmp;
     }
 }

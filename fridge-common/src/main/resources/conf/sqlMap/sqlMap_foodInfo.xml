@@ -11,14 +11,16 @@
         <result property="food_des" column="food_des"/>
         <result property="simple_name" column="simple_name"/>
         <result property="hot" column="hot"/>
+        <result property="is_tmp" column="is_tmp"/>
     </resultMap>
 
-    <insert id="addFoodInfo">
+    <insert id="addFoodInfo" useGeneratedKeys="true" keyProperty="food_id">
         <![CDATA[
-            insert into food_info(kind_id,food_name,food_img,food_des,simple_name,hot)
-            VALUES (#{kind_id},#{food_name},#{food_img},#{food_des},#{simple_name},#{hot})
+            insert into food_info(kind_id,food_name,food_img,food_des,simple_name,hot,is_tmp)
+            VALUES (#{kind_id},#{food_name},#{food_img},#{food_des},#{simple_name},#{hot},#{is_tmp})
         ]]>
     </insert>
+
     <select id="list" resultMap="foodInfoMap">
         <![CDATA[
             select * from food_info order by id ASC
@@ -26,7 +28,7 @@
      </select>
     <select id="listByKindId" resultMap="foodInfoMap">
         <![CDATA[
-            select * from food_info where kind_id = #{kind_id}
+            select * from food_info where kind_id = #{kind_id} and is_tmp != 1
         ]]>
     </select>
     <select id="getFoodInfoById" resultMap="foodInfoMap">
@@ -34,5 +36,19 @@
           select * from food_info where id = #{food_id}
         ]]>
     </select>
-
+    <select id="getFoodInfoByIdTmp" resultMap="foodInfoMap">
+        <![CDATA[
+          select * from food_info_tmp where id = #{food_id}
+        ]]>
+    </select>
+    <select id="getFoodInfoByName" resultMap="foodInfoMap">
+        <![CDATA[
+          select * from food_info where food_name = #{food_name}
+        ]]>
+            </select>
+    <delete id="delFoodInfoById">
+        <![CDATA[
+          delete from food_info where id = #{food_id}
+        ]]>
+     </delete>
 </mapper>

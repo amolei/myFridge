@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IFridgeBrandDao">
+    <resultMap type="com.jiangjun.fridge.dto.FridgeBrandDto" id="fridgeBrandMap">
+        <id property="brand_id" column="id"/>
+        <result property="fridge_name" column="fridge_name"/>
+        <result property="fridge_logo" column="fridge_logo"/>
+        <result property="fridge_mobile" column="fridge_mobile" />
+        <result property="keep_info" column="keep_info"/>
+        <result property="keep_time" column="keep_time"/>
+        <result property="fridge_pinyin" column="fridge_pinyin"/>
+    </resultMap>
+
+    <insert id="addFridgeBrand">
+        <![CDATA[
+            insert into fridge_brand(fridge_name,fridge_logo,fridge_mobile,keep_info,keep_time,fridge_pinyin)
+            VALUES (#{fridge_name},#{fridge_logo},#{fridge_mobile},#{keep_info},#{keep_time},#{fridge_pinyin})
+        ]]>
+    </insert>
+    <select id="list" resultMap="fridgeBrandMap">
+        <![CDATA[
+            select * from fridge_brand order by id ASC
+        ]]>
+     </select>
+</mapper>

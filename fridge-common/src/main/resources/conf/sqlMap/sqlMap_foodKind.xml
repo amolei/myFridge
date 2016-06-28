@@ -23,5 +23,21 @@
         ]]>
      </select>
 
+    <select id="queryById" resultMap="foodKindMap">
+        <![CDATA[
+          select * from food_kind where id = #{kind_id}
+        ]]>
+    </select>
 
+    <select id="queryByName" resultMap="foodKindMap">
+        <![CDATA[
+          select * from food_kind where food_kind_name = #{food_kind_name}
+        ]]>
+    </select>
+
+    <delete id="delFoodKindById">
+          <![CDATA[
+          delete from food_kind where id = #{kind_id}
+        ]]>
+    </delete>
 </mapper>

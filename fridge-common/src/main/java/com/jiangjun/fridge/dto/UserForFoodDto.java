@@ -93,4 +93,5 @@ public class UserForFoodDto {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
 }

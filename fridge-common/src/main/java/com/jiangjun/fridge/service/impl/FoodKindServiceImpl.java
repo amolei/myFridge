@@ -13,7 +13,7 @@ import java.util.List;
  * Created by jiangjun on 16/6/12.
  */
 @Service("foodKindService")
-public class FoodKindServiceImpl implements FoodKindService{
+public class FoodKindServiceImpl implements FoodKindService {
 
     @Resource
     private IFoodKindDao foodKindDao;
@@ -24,5 +24,17 @@ public class FoodKindServiceImpl implements FoodKindService{
 
     public void addFoodKind(FoodKindDto foodKindDto) {
         foodKindDao.addFoodKind(foodKindDto);
+    }
+
+    public FoodKindDto queryById(long kind_id) {
+        return foodKindDao.queryById(kind_id);
+    }
+
+    public FoodKindDto queryByName(String food_kind_name) {
+        return foodKindDao.queryByName(food_kind_name);
+    }
+
+    public void delFoodKindById(long kind_id) {
+        foodKindDao.delFoodKindById(kind_id);
     }
 }

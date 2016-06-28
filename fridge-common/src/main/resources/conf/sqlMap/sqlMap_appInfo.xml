@@ -3,12 +3,46 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jiangjun.fridge.dao.IAppInfoDao">
+    <resultMap type="com.jiangjun.fridge.dto.AppInfo" id="appInfoMap">
+        <id property="app_id" column="id"/>
+        <result property="app_name" column="app_name"/>
+        <result property="app_version" column="app_version"/>
+        <result property="app_info" column="app_info"/>
+        <result property="app_path" column="app_path"/>
+        <result property="update_time" column="update_time"/>
+    </resultMap>
 
     <insert id="addAppInfo">
         <![CDATA[
+
 			insert into app_info(app_name,app_version,app_info,app_path,update_time)
 			values(#{app_name},#{app_version},#{app_info},#{app_path},#{update_time})
 
+
         ]]>
     </insert>
+
+    <select id="list" resultMap="appInfoMap">
+        <![CDATA[
+
+          select * from app_info ORDER by id
+
+        ]]>
+    </select>
+
+    <select id="getAppByName" resultMap="appInfoMap">
+        <![CDATA[
+
+            select * from app_info where app_name = #{app_name}
+
+        ]]>
+    </select>
+
+    <select id="getAppByVersion" resultMap="appInfoMap">
+        <![CDATA[
+
+          select * from app_info where app_version = #{app_version}
+
+        ]]>
+    </select>
 </mapper>
