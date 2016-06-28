@@ -1,7 +1,6 @@
 package com.jiangjun.fridge.dao;
 
 import com.jiangjun.fridge.dto.AppInfo;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Appinfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
