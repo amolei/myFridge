@@ -23,7 +23,7 @@
      </select>
     <select id="listByUserId" resultMap="shopListMap">
         <![CDATA[
-          select * from shop_list where user_id = #{user_id} ORDER  BY id ASC
+          select * from shop_list where user_id = #{user_id} ORDER  BY shop_info_date desc
         ]]>
     </select>
 </mapper>

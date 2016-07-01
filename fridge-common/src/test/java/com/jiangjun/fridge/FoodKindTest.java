@@ -27,10 +27,10 @@ public class FoodKindTest {
     @Test
     public void createTest() {
         FoodKindDto foodKindDto = new FoodKindDto();
-        foodKindDto.setFood_kind_name("海鲜");
-        foodKindDto.setFood_kind_info("海鲜海鲜");
-        foodKindDto.setSimple_name("HX");
-        foodKindDto.setFood_kind_img("hx.png");
+        foodKindDto.setFood_kind_name("其他");
+        foodKindDto.setFood_kind_info("其他分类");
+        foodKindDto.setSimple_name("QT");
+//        foodKindDto.setFood_kind_img("hx.png");
         foodKindService.addFoodKind(foodKindDto);
     }
 

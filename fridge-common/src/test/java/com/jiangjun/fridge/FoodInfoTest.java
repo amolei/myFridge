@@ -27,6 +27,13 @@ public class FoodInfoTest {
     }
 
     @Test
+    public void searchTest(){
+        String keywords = "g";
+        List<FoodInfoDto> list = foodInfoService.listBySName(keywords);
+        System.out.println(list.size());
+    }
+
+    @Test
     public void createListByKindId(){
         List<FoodKindDto> foodKindDtos = foodKindService.list();
         for(FoodKindDto fk:foodKindDtos){

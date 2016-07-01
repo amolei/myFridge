@@ -23,4 +23,5 @@ public interface IFoodInfoDao {
 
     public void delFoodInfoById(long food_id);
 
+    public List<FoodInfoDto> listBySName(String keywords);
 }

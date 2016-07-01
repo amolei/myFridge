@@ -20,4 +20,6 @@ public interface FoodInfoService {
     public FoodInfoDto getFoodInfoByName(String food_name);
 
     public void delFoodInfoById(long food_id);
+
+    public List<FoodInfoDto> listBySName(String keywords);
 }

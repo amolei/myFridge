@@ -45,7 +45,12 @@
         <![CDATA[
           select * from food_info where food_name = #{food_name}
         ]]>
-            </select>
+    </select>
+    <select id="listBySName" resultMap="foodInfoMap">
+        <![CDATA[
+          select * from food_info where simple_name like CONCAT('%',#{keywords},'%')
+        ]]>
+    </select>
     <delete id="delFoodInfoById">
         <![CDATA[
           delete from food_info where id = #{food_id}

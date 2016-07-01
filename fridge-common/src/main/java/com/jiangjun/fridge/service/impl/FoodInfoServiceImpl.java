@@ -40,4 +40,8 @@ public class FoodInfoServiceImpl implements FoodInfoService {
     public void delFoodInfoById(long food_id) {
         foodInfoDao.delFoodInfoById(food_id);
     }
+
+    public List<FoodInfoDto> listBySName(String keywords){
+        return foodInfoDao.listBySName(keywords);
+    }
 }

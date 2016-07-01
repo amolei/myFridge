@@ -18,4 +18,8 @@ public class HttpClientTest {
         Date date = new Date(timeStart);
         System.out.println(sdf.format(date));
     }
+
+    public void httpClientTest2() throws  Exception{
+
+    }
 }
