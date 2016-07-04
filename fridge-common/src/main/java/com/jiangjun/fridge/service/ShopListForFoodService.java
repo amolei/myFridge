@@ -17,4 +17,6 @@ public interface ShopListForFoodService {
     public ShopListForFoodDto queryByShopListAndFoodId(long shop_list_id,long food_id);
 
     public void updateStatus(ShopListForFoodDto shopListForFoodDto);
+
+    public void delByShopListId(long shop_list_id);
 }

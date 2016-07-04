@@ -23,4 +23,6 @@ public interface IShopListForFoodDao {
 
     public void updateStatus(ShopListForFoodDto shopListForFoodDto);
 
+    public void delByShopListId(long shop_list_id);
+
 }

@@ -43,6 +43,81 @@ public class FridgeController {
     @Autowired
     private IUserInfoDao userInfoDao;
 
+    @RequestMapping(value = "delShopListBatch")
+    public void delShopListBatch(HttpServletRequest request,HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("delShopListBatch>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        JSONArray items = jsonRequest.getJSONArray("items");
+        for(int i=0;i<items.size();i++){
+            JSONObject obj = items.getJSONObject(i);
+            long shop_list_id = obj.getLong("shop_list_id");
+            shopListDao.delShopListById(shop_list_id);
+            shopListForFoodDao.delByShopListId(shop_list_id);
+        }
+        try{
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            ResBody res = new ResBody();
+            res.setResCode(1);
+            res.setResMsg("success");
+            item.put("res",res);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "searchFoodFromHistory")
+    public void searchFoodFromHistory(HttpServletRequest request,HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("searchFoodFromHistory>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        String keywords = jsonRequest.getString("keywords");
+        long user_id = jsonRequest.getLong("user_id");
+        //根据user_id查询出shoplist
+        List<ShopListDto> list = shopListDao.listByUserId(user_id);
+        Set<Long> food_ids = new HashSet<Long>();
+        //根据shoplist id查询出食物Id列表
+        for(ShopListDto s:list){
+            long shop_list_id = s.getShop_list_id();
+            List<ShopListForFoodDto> shopListForFoodDtos = shopListForFoodDao.listByShopListId(shop_list_id);
+            for(ShopListForFoodDto sL:shopListForFoodDtos){
+                food_ids.add(sL.getFood_id());
+            }
+        }
+        //根据食物ID列表查询食物信息列表
+        List<FoodInfoDto> foodInfoDtos = new ArrayList<FoodInfoDto>();
+        Iterator it = food_ids.iterator();
+        while(it.hasNext()){
+            Long food_id = (Long) it.next();
+            FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(food_id);
+            if(foodInfoDto != null) {
+                if(foodInfoDto.getSimple_name() != null && foodInfoDto.getSimple_name().indexOf(keywords) > -1) {
+                    FoodKindDto foodKindDto = foodKindDao.queryById(foodInfoDto.getKind_id());
+                    foodInfoDto.setKind_name(foodKindDto.getFood_kind_name());
+                    foodInfoDtos.add(foodInfoDto);
+                }
+            }
+        }
+        try{
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            ResBody res = new ResBody();
+            res.setResCode(1);
+            res.setResMsg("success");
+            item.put("res", res);
+            item.put("items",foodInfoDtos);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 根据食物简写搜索食物
      * @param request

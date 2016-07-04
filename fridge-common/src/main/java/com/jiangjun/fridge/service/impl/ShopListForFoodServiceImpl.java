@@ -37,4 +37,8 @@ public class ShopListForFoodServiceImpl implements ShopListForFoodService {
     public void updateStatus(ShopListForFoodDto shopListForFoodDto) {
         shopListForFoodDao.updateStatus(shopListForFoodDto);
     }
+
+    public void delByShopListId(long shop_list_id){
+        shopListForFoodDao.delByShopListId(shop_list_id);
+    }
 }

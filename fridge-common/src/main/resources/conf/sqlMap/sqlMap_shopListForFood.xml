@@ -41,4 +41,10 @@
           where id = #{shop_list_for_food_id}
         ]]>
     </update>
+
+    <delete id="delByShopListId">
+        <![CDATA[
+          delete from shop_list_for_food where shop_list_id = #{shop_list_id}
+        ]]>
+    </delete>
 </mapper>

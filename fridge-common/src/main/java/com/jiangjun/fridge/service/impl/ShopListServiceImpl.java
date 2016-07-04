@@ -28,4 +28,8 @@ public class ShopListServiceImpl implements ShopListService {
     public List<ShopListDto> listByUserId(long user_id) {
         return shopListDao.listByUserId(user_id);
     }
+
+    public void delShopListById(long shop_list_id){
+        shopListDao.delShopListById(shop_list_id);
+    }
 }
