@@ -33,7 +33,8 @@ public class FoodManagerController {
     public static String rootPath = "/opt";
     public static String imgPath = "/images/";
     public static String appPath = "/apps/";
-//    public static String imgPath = "/Users/111/Documents/images";
+//        public static String imgPath = "/Users/111/Documents/images";
+
     @Autowired
     private IFoodKindDao foodKindDao;
 
@@ -41,25 +42,25 @@ public class FoodManagerController {
     private IFoodInfoDao foodInfoDao;
 
     @RequestMapping(value = "delFoodInfoById")
-    public String delFoodInfoById(HttpServletRequest request, HttpServletResponse response){
+    public String delFoodInfoById(HttpServletRequest request, HttpServletResponse response) {
         String food_id = request.getParameter("food_id");
         foodInfoDao.delFoodInfoById(Long.parseLong(food_id));
         return "redirect:/queryFoodList.do";
     }
 
     @RequestMapping(value = "delFoodKindById")
-    public String delFoodKindById(HttpServletRequest request, HttpServletResponse response){
+    public String delFoodKindById(HttpServletRequest request, HttpServletResponse response) {
         String kind_id = request.getParameter("kind_id");
         foodKindDao.delFoodKindById(Long.parseLong(kind_id));
         return "redirect:/queryFoodKindList.do";
     }
 
     @RequestMapping(value = "validateFoodKindById")
-    public void validateFoodKindById(HttpServletRequest request, HttpServletResponse response){
+    public void validateFoodKindById(HttpServletRequest request, HttpServletResponse response) {
         long kind_id = Long.parseLong(request.getParameter("kind_id"));
         List<FoodInfoDto> list = foodInfoDao.listByKindId(kind_id);
         int result = 0;
-        if(list != null && list.size() > 1){
+        if (list != null && list.size() > 1) {
             //不能删除
             result = 1;
         }
@@ -70,16 +71,16 @@ public class FoodManagerController {
             item.put("flag", result);
             response.getWriter().write(item.toJSONString());
             response.getWriter().flush();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @RequestMapping(value = "validateFoodInfoName")
-    public void validateFoodInfoName(HttpServletRequest request, HttpServletResponse response){
+    public void validateFoodInfoName(HttpServletRequest request, HttpServletResponse response) {
         String food_name = request.getParameter("food_name");
         int result = 0;
-        if(foodInfoDao.getFoodInfoByName(food_name) != null){
+        if (foodInfoDao.getFoodInfoByName(food_name) != null) {
             result = 1;
         }
         try {
@@ -89,16 +90,16 @@ public class FoodManagerController {
             item.put("flag", result);
             response.getWriter().write(item.toJSONString());
             response.getWriter().flush();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @RequestMapping(value = "validateFoodKindName")
-    public void validateFoodKindName(HttpServletRequest request, HttpServletResponse response){
+    public void validateFoodKindName(HttpServletRequest request, HttpServletResponse response) {
         String food_kind_name = request.getParameter("food_kind_name");
         int result = 0;
-        if(foodKindDao.queryByName(food_kind_name) != null){
+        if (foodKindDao.queryByName(food_kind_name) != null) {
             result = 1;
         }
         try {
@@ -108,18 +109,21 @@ public class FoodManagerController {
             item.put("flag", result);
             response.getWriter().write(item.toJSONString());
             response.getWriter().flush();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @RequestMapping(value = "createFoodInfo")
-    public String createFoodInfo(HttpServletRequest request, HttpServletResponse response){
+    public String createFoodInfo(HttpServletRequest request, HttpServletResponse response) {
         String food_name = request.getParameter("food_name");
         String food_info = request.getParameter("food_info");
         String simpel_name = request.getParameter("simple_name");
         String food_kind_id = request.getParameter("food_kind");
-        String hot = request.getParameter("hot");
+        String hot = "0";
+        if(request.getParameter("hot") != null) {
+            hot = request.getParameter("hot");
+        }
         String food_img = "";
         try {
             CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
@@ -149,7 +153,7 @@ public class FoodManagerController {
             foodInfoDto.setKind_id(Long.parseLong(food_kind_id));
             foodInfoDto.setFood_img(food_img);
             foodInfoDto.setHot(Integer.parseInt(hot));
-//            foodInfoDao.addFoodInfo(foodInfoDto);
+            foodInfoDao.addFoodInfo(foodInfoDto);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -197,10 +201,15 @@ public class FoodManagerController {
 
     @RequestMapping(value = "queryFoodListByKindId")
     public void queryFoodListByKindId(HttpServletRequest request, HttpServletResponse response) {
+        List<FoodInfoDto> foodInfoDtos;
         long food_kind_id = Long.parseLong(request.getParameter("food_kind_id"));
-        List<FoodInfoDto> foodInfoDtos = foodInfoDao.listByKindId(food_kind_id);
+        if (food_kind_id == -1) {
+            foodInfoDtos = foodInfoDao.list();
+        } else {
+            foodInfoDtos = foodInfoDao.listByKindId(food_kind_id);
+        }
         for (FoodInfoDto f : foodInfoDtos) {
-            f.setFoodKindDto(foodKindDao.queryById(f.getKind_id()));
+            f.setKind_name(foodKindDao.queryById(f.getKind_id()).getFood_kind_name());
         }
         try {
             response.setCharacterEncoding("utf-8");
@@ -243,10 +252,13 @@ public class FoodManagerController {
     public ModelAndView queryFoodList(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
         List<FoodInfoDto> foodInfoDtoList = foodInfoDao.list();
         for (FoodInfoDto f : foodInfoDtoList) {
-            f.setFoodKindDto(foodKindDao.queryById(f.getKind_id()));
+            f.setKind_name(foodKindDao.queryById(f.getKind_id()).getFood_kind_name());
         }
+        List<FoodKindDto> foodKindDtoList = foodKindDao.list();
         modelAndView.setViewName("foodInfoManager");
         modelAndView.addObject("foodInfoList", foodInfoDtoList);
+        modelAndView.addObject("foodKindList", foodKindDtoList);
         return modelAndView;
     }
+
 }
