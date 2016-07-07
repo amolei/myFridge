@@ -1,135 +1,210 @@
+<%@ page isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     String contextPath = request.getContextPath();
 %>
-<%@ page isELIgnored="false"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="<%=contextPath%>/bootstrap/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="<%=contextPath%>/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
-          apply the skin class to the body tag so the changes take effect.
-    -->
-    <link rel="stylesheet" href="<%=contextPath%>/dist/css/skins/skin-blue.min.css">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>我的冰箱</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="<%=contextPath%>/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="<%=contextPath%>/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="<%=contextPath%>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
+          rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="<%=contextPath%>/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="<%=contextPath%>/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="<%=contextPath%>/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <title>我的冰箱后台管理系统</title>
-  </head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-    <jsp:include page="../header.jsp"></jsp:include>
-    <jsp:include page="../aside.jsp"></jsp:include>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                食品管理
-                <small>分类管理</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">食品管理</a></li>
-                <li class="active">分类管理</li>
-            </ol>
-        </section>
+    <script>
+        function choseKind(id) {
+            var h = '<span class="caret"></span>';
+            $('#dropdownMenu1').html(id + h);
+        }
+    </script>
+</head>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <div class="box-title">
-                                <a href="pages/createFoodKind.jsp" class="btn btn-block btn-primary" type="button">新建分类</a>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <table id="example2" class="table table-bordered table-hover">
+<body>
+
+<div id="wrapper">
+
+    <jsp:include page="header.jsp"></jsp:include>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">分类管理</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                            <span style="">
+									<button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal">新建分类
+                                    </button>
+                            </span>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>序号</th>
                                     <th>名称</th>
                                     <th>描述</th>
                                     <th>简称</th>
-                                    <th>图片</th>
-                                    <th width="10%">操作</th>
+                                    <th>图标</th>
+                                    <th width="15%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="item" items="${foodKindList}" varStatus="status">
-                                    <tr>
-                                        <td>${item.food_kind_id}</td>
-                                        <td>${item.food_kind_name}
-                                        </td>
-                                        <td>${item.food_kind_info}</td>
-                                        <td>${item.simple_name}</td>
-                                        <td><img width="60" height="60" src="http://139.196.171.209/${item.food_kind_img}"></td>
-                                        <td><button class="btn btn-block btn-danger" type="button" onclick="delById(${item.food_kind_id})">删除</button></td>
+                                <c:forEach items="${foodKindList}" var="item" varStatus="status">
+                                    <c:choose>
+                                        <c:when test="status.count%2 == 1">
+                                            <tr class="odd">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tr class="event">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td>${status.count}</td>
+                                    <td>${item.food_kind_name}</td>
+                                    <td title="${item.food_kind_info }">${item.food_kind_info}</td>
+                                    <td>${item.simple_name}</td>
+                                    <td>
+                                        <img width="80px" height="80px" src="http://139.196.171.209${item.food_kind_img}"/>
+                                    </td>
+                                    <td class="center">
+                                        <button type="button" class="btn btn-primary" onclick="">修改</button>
+                                        <button onclick="delFoodKind(${item.food_kind_id});" class="btn btn-warning delZoneButton" type="button">删除
+                                        </button>
+                                    </td>
                                     </tr>
                                 </c:forEach>
-
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>名称</th>
-                                    <th>描述</th>
-                                    <th>简称</th>
-                                    <th>图片</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
                             </table>
                         </div>
-                        <!-- /.box-body -->
                     </div>
-                    <!-- /.box -->
+                    <!-- /.panel-body -->
                 </div>
-                <!-- /.col -->
+                <!-- /.panel -->
             </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
+            <!-- /.col-lg-12 -->
+        </div>
     </div>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
-    <jsp:include page="../asideControl.jsp"></jsp:include>
+    <!-- /#page-wrapper -->
+
 </div>
-<!-- ./wrapper -->
+<!-- /#wrapper -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">新增分类</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="createFoodKindForm" action="createFoodKind.do" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">分类名称</label>
 
-<!-- REQUIRED JS SCRIPTS -->
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="food_kind_name" name="food_kind_name" placeholder="分类名称" onblur="validateFoodKindName();">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">分类描述</label>
 
-<!-- jQuery 2.2.0 -->
-<script src="<%=contextPath%>/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="<%=contextPath%>/bootstrap/js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<%=contextPath%>/dist/js/app.min.js"></script>
-<script src="<%=contextPath%>/dist/js/pages/foodKindManager.js"></script>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="food_kind_info" name="food_kind_info"
+                                   placeholder="分类描述">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">简称</label>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="simple_name" name="simple_name" placeholder="简称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">上传图片</label>
+
+                        <div class="col-sm-8">
+                            <input id="food_kind_img" type="file" name="food_kind_img" class="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm();">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="<%=contextPath%>/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="<%=contextPath%>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="<%=contextPath%>/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="<%=contextPath%>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="<%=contextPath%>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="<%=contextPath%>/dist/js/sb-admin-2.js"></script>
+<script src="<%=contextPath%>/js/foodKind.js"></script>
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
 </body>
+
 </html>
