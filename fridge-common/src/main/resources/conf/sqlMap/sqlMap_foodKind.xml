@@ -40,4 +40,15 @@
           delete from food_kind where id = #{kind_id}
         ]]>
     </delete>
+
+    <update id="update">
+        <![CDATA[
+          update food_kind set
+            food_kind_name = #{food_kind_name},
+            food_kind_info = #{food_kind_info},
+            simple_name = #{simple_name},
+            food_kind_img = #{food_kind_img}
+			where id = #{food_kind_id}
+        ]]>
+    </update>
 </mapper>

@@ -18,4 +18,6 @@ public interface FoodKindService {
     public FoodKindDto queryByName(String food_kind_name);
 
     public void delFoodKindById(long kind_id);
+
+    public void update(FoodKindDto foodKindDto);
 }

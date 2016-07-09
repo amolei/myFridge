@@ -37,4 +37,6 @@ public class FoodKindServiceImpl implements FoodKindService {
     public void delFoodKindById(long kind_id) {
         foodKindDao.delFoodKindById(kind_id);
     }
+
+    public void update(FoodKindDto foodKindDto){foodKindDao.update(foodKindDto);}
 }

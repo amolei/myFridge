@@ -44,4 +44,8 @@ public class FoodInfoServiceImpl implements FoodInfoService {
     public List<FoodInfoDto> listBySName(String keywords){
         return foodInfoDao.listBySName(keywords);
     }
+
+    public void update(FoodInfoDto foodInfoDto){
+        foodInfoDao.update(foodInfoDto);
+    }
 }
