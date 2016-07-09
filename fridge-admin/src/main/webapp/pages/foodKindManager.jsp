@@ -83,7 +83,6 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
                                     <th>名称</th>
                                     <th>描述</th>
                                     <th>简称</th>
@@ -101,7 +100,6 @@
                                             <tr class="event">
                                         </c:otherwise>
                                     </c:choose>
-                                    <td>${status.count}</td>
                                     <td>${item.food_kind_name}</td>
                                     <td title="${item.food_kind_info }">${item.food_kind_info}</td>
                                     <td>${item.simple_name}</td>
@@ -109,7 +107,7 @@
                                         <img width="80px" height="80px" src="http://139.196.171.209${item.food_kind_img}"/>
                                     </td>
                                     <td class="center">
-                                        <button type="button" class="btn btn-primary" onclick="">修改</button>
+                                        <button type="button" class="btn btn-primary" onclick="openModifyModal(${item.food_kind_id});">修改</button>
                                         <button onclick="delFoodKind(${item.food_kind_id});" class="btn btn-warning delZoneButton" type="button">删除
                                         </button>
                                     </td>
@@ -180,6 +178,64 @@
         </div>
     </div>
 </div>
+
+<!--modify-->
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modifyModal1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModifyModalModalLabel">编辑分类</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="modifyModalFoodKindForm" action="updateFoodKind.do" method="post" enctype="multipart/form-data">
+                    <div class="form-group" style="display:none">
+                        <label class="col-sm-3 control-label">分类id</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modifyModal_food_kind_id" name="modifyModal_food_kind_id" placeholder="分类名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">分类名称</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modifyModal_food_kind_name" name="modifyModal_food_kind_name" placeholder="分类名称" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">分类描述</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modifyModal_food_kind_info" name="modifyModal_food_kind_info"
+                                   placeholder="分类描述">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">简称</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modifyModal_simple_name" name="modifyModal_simple_name" placeholder="简称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">上传图片</label>
+
+                        <div class="col-sm-8">
+                            <input type="file" name="modifyModal_food_kind_img" class="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitModifyModalForm();">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jQuery -->
 <script src="<%=contextPath%>/bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -198,11 +254,7 @@
 <script src="<%=contextPath%>/js/foodKind.js"></script>
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
+
 </script>
 
 </body>

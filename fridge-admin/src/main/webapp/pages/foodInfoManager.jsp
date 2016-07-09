@@ -95,7 +95,6 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>序号</th>
                                     <th>名称</th>
                                     <th>描述</th>
                                     <th>简称</th>
@@ -115,19 +114,24 @@
                                             <tr class="event">
                                         </c:otherwise>
                                     </c:choose>
-                                    <td>${status.count}</td>
                                     <td>${item.food_name}</td>
                                     <td title="${item.food_des }">${item.food_des}</td>
                                     <td>${item.simple_name}</td>
                                     <td>${item.kind_name}</td>
                                     <td><img width="80px" height="80px" src="http://139.196.171.209${item.food_img}">
                                     </td>
-                                    <td>${item.hot}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${item.hot == 1}">是</c:when>
+                                            <c:otherwise>否</c:otherwise>
+                                        </c:choose>
+                                    </td>
                                     <td class="center">
                                         <button type="button" class="btn btn-primary"
                                                 onclick="openModifyModal(${item.food_id});">修改
                                         </button>
-                                        <button onclick="delFoodInfo(${item.food_id});" class="btn btn-warning delZoneButton" type="button">删除
+                                        <button onclick="delFoodInfo(${item.food_id});"
+                                                class="btn btn-warning delZoneButton" type="button">删除
                                         </button>
                                     </td>
                                     </tr>
@@ -158,12 +162,14 @@
                 <h4 class="modal-title" id="myModalLabel">新增食物</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="createFoodInfoForm" action="createFoodInfo.do" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" id="createFoodInfoForm" action="createFoodInfo.do" method="post"
+                      enctype="multipart/form-data">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">食物名称</label>
 
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="food_name" name="food_name" placeholder="食物名称" onblur="validateFoodInfoName();">
+                            <input type="text" class="form-control" id="food_name" name="food_name" placeholder="食物名称"
+                                   onblur="validateFoodInfoName();">
                         </div>
                     </div>
                     <div class="form-group">
@@ -230,51 +236,76 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modifyModal1">修改分类</h4>
+                <h4 class="modal-title" id="myModidyModalLabel">编辑食物</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="modifyForm" action="createFoodKind.do" method="post"
+                <form class="form-horizontal" id="modifyFoodInfoForm" action="updateFoodInfo.do" method="post"
                       enctype="multipart/form-data">
-                    <input type="hidden" name="modifyModal_certificate_id">
-
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">分类名称</label>
+                    <div style="display: none" class="form-group">
+                        <label class="col-sm-3 control-label">食物名称</label>
 
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="modifyModal_certificate_name"
-                                   placeholder="例如:suningcom...">
+                            <input type="text" class="form-control" id="modify_food_id" name="modify_food_id">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">分类描述</label>
+                        <label class="col-sm-3 control-label">食物名称</label>
 
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="modifyModal_private_key"
-                                   placeholder="例如:suningcom.key...">
+                            <input type="text" class="form-control" id="modify_food_name" name="modify_food_name"
+                                   placeholder="食物名称" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">食物描述</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modify_food_info" name="modify_food_info"
+                                   placeholder="食物描述">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">简称</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="modify_simple_name" name="modify_simple_name"
+                                   placeholder="简称">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">类别</label>
 
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="modifyModal_remark"
-                                   placeholder="例如:suningcn(官网)证书...">
+                            <select id="modify_food_kind" name="modify_food_kind" class="form-control">
+
+                            </select>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否热点</label>
+
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="modify_hot" name="modify_hot" value="1"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="col-sm-3 control-label">上传图片</label>
 
                         <div class="col-sm-8">
-                            <input id="modifyModal_file_upload" type="file" name="modifyModal_file" class="">
+                            <input type="file" name="file" class="">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="submitForm();">保存</button>
+                <button type="button" class="btn btn-primary" onclick="submitModifyModalForm();">保存</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -298,11 +329,7 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
+
 </script>
 
 </body>

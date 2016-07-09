@@ -1,3 +1,14 @@
+$(document).ready(function(){
+    $('#dataTables-example').DataTable({
+        responsive : true,
+        bStateSave : true,
+        ordering : true,
+        "aaSorting" : [[1, "asc"]],
+        language : {
+            url : '/fridge-admin/js/chinese.json'
+        }
+    });
+});
 function validateFoodKindName(){
     var food_kind_name = $('#food_kind_name').val();
     $.post(
@@ -34,4 +45,36 @@ function submitForm(){
 
 function delFoodKind(food_kind_id){
     window.location.href = 'delFoodKindById.do?kind_id=' + food_kind_id;
+}
+
+function openModifyModal(id) {
+    $.ajax({
+        type : "post",
+        url : "getFoodKindById.do",
+        dataType : "json",
+        data : {
+            "id" : id
+        },
+        cache : false,
+        success : function(data) {
+            if (data != null) {
+                var obj = data.foodKind;
+                $('input[name=modifyModal_food_kind_id]').val(obj.food_kind_id);
+                $('input[name=modifyModal_food_kind_name]').val(obj.food_kind_name);
+                $('input[name=modifyModal_food_kind_info]')
+                    .val(obj.food_kind_info);
+                $('input[name=modifyModal_simple_name]')
+                    .val(obj.simple_name);
+                $('#modifyModal').modal('show');
+            }
+        },
+        error : function(err) {
+            var txt = "出错了";
+            alert('error');
+        }
+    });
+}
+
+function submitModifyModalForm() {
+    $('#modifyModalFoodKindForm').submit();
 }

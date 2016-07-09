@@ -31,9 +31,9 @@ import java.util.List;
 public class FoodManagerController {
 
     public static String rootPath = "/opt";
-    public static String imgPath = "/images/";
+//    public static String imgPath = "/images/";
     public static String appPath = "/apps/";
-//        public static String imgPath = "/Users/111/Documents/images";
+        public static String imgPath = "/Users/111/Documents/images";
 
     @Autowired
     private IFoodKindDao foodKindDao;
@@ -139,10 +139,12 @@ public class FoodManagerController {
                     //一次遍历所有文件
                     MultipartFile file = multiRequest.getFile(iter.next().toString());
                     if (file != null) {
-                        String path = imgPath + File.separator + file.getOriginalFilename();
-                        food_img = rootPath + path;
-                        //上传
-                        file.transferTo(new File(path));
+                        if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
+                            String path = imgPath + File.separator + file.getOriginalFilename();
+                            food_img = rootPath + path;
+                            //上传
+                            file.transferTo(new File(path));
+                        }
                     }
                 }
             }
@@ -180,10 +182,12 @@ public class FoodManagerController {
                     //一次遍历所有文件
                     MultipartFile file = multiRequest.getFile(iter.next().toString());
                     if (file != null) {
-                        String path = imgPath + File.separator + file.getOriginalFilename();
-                        food_kind_img = rootPath + path;
-                        //上传
-                        file.transferTo(new File(path));
+                        if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
+                            String path = imgPath + File.separator + file.getOriginalFilename();
+                            food_kind_img = rootPath + path;
+                            //上传
+                            file.transferTo(new File(path));
+                        }
                     }
                 }
             }
@@ -259,6 +263,135 @@ public class FoodManagerController {
         modelAndView.addObject("foodInfoList", foodInfoDtoList);
         modelAndView.addObject("foodKindList", foodKindDtoList);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "getFoodKindById")
+    public void getFoodKindById(HttpServletRequest request, HttpServletResponse response){
+        String kind_id = request.getParameter("id");
+        FoodKindDto foodKindDto = foodKindDao.queryById(Long.parseLong(kind_id));
+        try {
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            item.put("result","1");
+            item.put("foodKind", foodKindDto);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "getFoodInfoById")
+    public void getFoodInfoById(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("id");
+        FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(Long.parseLong(id));
+        List<FoodKindDto> foodKindDtoList = foodKindDao.list();
+        try {
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            item.put("result","1");
+            item.put("foodInfo", foodInfoDto);
+            item.put("foodKindList",foodKindDtoList);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "updateFoodInfo")
+    public String updateFoodInfo(HttpServletRequest request, HttpServletResponse response){
+        String id = request.getParameter("modify_food_id");
+        String food_name = request.getParameter("modify_food_name");
+        String food_info = request.getParameter("modify_food_info");
+        String simpel_name = request.getParameter("modify_simple_name");
+        String food_kind_id = request.getParameter("modify_food_kind");
+        String hot = "0";
+        FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(Long.parseLong(id));
+        String food_img = foodInfoDto.getFood_img();
+        if(request.getParameter("modify_hot") != null) {
+            hot = request.getParameter("modify_hot");
+        }
+        try {
+            CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+                    request.getSession().getServletContext());
+            //检查form中是否有enctype="multipart/form-data"
+            if (multipartResolver.isMultipart(request)) {
+                //将request变成多部分request
+                MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+                //获取multiRequest 中所有的文件名
+                Iterator iter = multiRequest.getFileNames();
+
+                while (iter.hasNext()) {
+                    //一次遍历所有文件
+                    MultipartFile file = multiRequest.getFile(iter.next().toString());
+                    if (file != null) {
+                        if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
+                            String path = imgPath + File.separator + file.getOriginalFilename();
+                            food_img = rootPath + path;
+                            //上传
+                            file.transferTo(new File(path));
+                        }
+                    }
+                }
+            }
+            foodInfoDto.setFood_name(food_name);
+            foodInfoDto.setFood_des(food_info);
+            foodInfoDto.setSimple_name(simpel_name);
+            foodInfoDto.setKind_id(Long.parseLong(food_kind_id));
+            foodInfoDto.setFood_img(food_img);
+            foodInfoDto.setHot(Integer.parseInt(hot));
+            foodInfoDao.update(foodInfoDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/queryFoodList.do";
+    }
+
+    @RequestMapping(value = "updateFoodKind")
+    public String updateFoodKind(HttpServletRequest request, HttpServletResponse response){
+        long food_kind_id = Long.parseLong(request.getParameter("modifyModal_food_kind_id"));
+        String food_kind_name = request.getParameter("modifyModal_food_kind_name");
+        String food_kind_info = request.getParameter("modifyModal_food_kind_info");
+        String simple_name = request.getParameter("modifyModal_simple_name");
+        String food_kind_img = "";
+        FoodKindDto foodKindDto = foodKindDao.queryById(food_kind_id);
+        foodKindDto.setFood_kind_name(food_kind_name);
+        foodKindDto.setFood_kind_info(food_kind_info);
+        foodKindDto.setSimple_name(simple_name);
+        food_kind_img = foodKindDto.getFood_kind_img();
+        try {
+            CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+                    request.getSession().getServletContext());
+            //检查form中是否有enctype="multipart/form-data"
+            if (multipartResolver.isMultipart(request)) {
+                //将request变成多部分request
+                MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+                //获取multiRequest 中所有的文件名
+                Iterator iter = multiRequest.getFileNames();
+
+                while (iter.hasNext()) {
+                    //一次遍历所有文件
+                    String fileS = iter.next().toString();
+                    MultipartFile file = multiRequest.getFile(fileS);
+                    if (file != null) {
+                        if (file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
+                            String path = imgPath + File.separator + file.getOriginalFilename();
+                            food_kind_img = rootPath + path;
+                            //上传
+                            file.transferTo(new File(path));
+                        }
+                    }
+                }
+            }
+            foodKindDto.setFood_kind_img(food_kind_img);
+            foodKindDao.update(foodKindDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/queryFoodKindList.do";
     }
 
 }
