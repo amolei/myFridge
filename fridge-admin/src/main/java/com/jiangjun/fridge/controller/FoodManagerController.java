@@ -30,10 +30,10 @@ import java.util.List;
 @Controller
 public class FoodManagerController {
 
-    public static String rootPath = "/opt";
-//    public static String imgPath = "/images/";
+    public static String rootPath = "/opt/content";
+    public static String imgPath = "/images/";
     public static String appPath = "/apps/";
-        public static String imgPath = "/Users/111/Documents/images";
+//        public static String imgPath = "/Users/111/Documents/images";
 
     @Autowired
     private IFoodKindDao foodKindDao;
@@ -141,9 +141,10 @@ public class FoodManagerController {
                     if (file != null) {
                         if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
                             String path = imgPath + File.separator + file.getOriginalFilename();
-                            food_img = rootPath + path;
+                            food_img =  path;
+                            String uploadPath = rootPath + path;
                             //上传
-                            file.transferTo(new File(path));
+                            file.transferTo(new File(uploadPath));
                         }
                     }
                 }
@@ -184,9 +185,10 @@ public class FoodManagerController {
                     if (file != null) {
                         if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
                             String path = imgPath + File.separator + file.getOriginalFilename();
-                            food_kind_img = rootPath + path;
+                            food_kind_img =  path;
+                            String uploadPath = rootPath + path;
                             //上传
-                            file.transferTo(new File(path));
+                            file.transferTo(new File(uploadPath));
                         }
                     }
                 }
@@ -330,9 +332,10 @@ public class FoodManagerController {
                     if (file != null) {
                         if(file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
                             String path = imgPath + File.separator + file.getOriginalFilename();
-                            food_img = rootPath + path;
+                            food_img =  path;
+                            String uploadPath = rootPath + path;
                             //上传
-                            file.transferTo(new File(path));
+                            file.transferTo(new File(uploadPath));
                         }
                     }
                 }
@@ -379,9 +382,10 @@ public class FoodManagerController {
                     if (file != null) {
                         if (file.getOriginalFilename() != null && !file.getOriginalFilename().trim().equals("")) {
                             String path = imgPath + File.separator + file.getOriginalFilename();
-                            food_kind_img = rootPath + path;
+                            food_kind_img =  path;
+                            String uploadPath = rootPath + path;
                             //上传
-                            file.transferTo(new File(path));
+                            file.transferTo(new File(uploadPath));
                         }
                     }
                 }

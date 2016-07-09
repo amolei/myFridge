@@ -1,15 +1,3 @@
-$(document).ready(function(){
-    $('#dataTables-example').DataTable({
-        responsive : true,
-        bStateSave : true,
-        ordering : true,
-        "aaSorting" : [[1, "asc"]],
-        language : {
-            url : '/fridge-admin/js/chinese.json'
-        }
-    });
-});
-
 function choseKind(id,name){
     var h = '<span class="caret"></span>';
     $('#dropdownMenu1').html(name + h);
