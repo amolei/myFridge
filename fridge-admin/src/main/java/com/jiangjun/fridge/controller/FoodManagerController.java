@@ -41,6 +41,76 @@ public class FoodManagerController {
     @Autowired
     private IFoodInfoDao foodInfoDao;
 
+    @RequestMapping(value = "upFoodInfo")
+    public String upFoodInfo(HttpServletRequest request, HttpServletResponse response){
+        Long food_id = Long.parseLong(request.getParameter("food_id"));
+        FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(food_id);
+        Long kind_id = foodInfoDto.getKind_id();
+        Integer sort = foodInfoDto.getSort();
+        List<FoodInfoDto> list = foodInfoDao.listLtBySort(foodInfoDto);
+        if(list != null && list.size() > 0){
+            FoodInfoDto litter = list.get(list.size() - 1);
+            Integer litterSort = litter.getSort();
+            foodInfoDto.setSort(litterSort);
+            litter.setSort(sort);
+            foodInfoDao.update(litter);
+            foodInfoDao.update(foodInfoDto);
+        }
+        return "redirect:/queryFoodList.do?kind_id=" + kind_id;
+    }
+
+    @RequestMapping(value = "downFoodInfo")
+    public String downFoodInfo(HttpServletRequest request, HttpServletResponse response){
+        Long food_id = Long.parseLong(request.getParameter("food_id"));
+        FoodInfoDto foodInfoDto = foodInfoDao.getFoodInfoById(food_id);
+        Long kind_id = foodInfoDto.getKind_id();
+        Integer sort = foodInfoDto.getSort();
+        List<FoodInfoDto> list = foodInfoDao.listGtBySort(foodInfoDto);
+        if(list != null && list.size() > 0){
+            FoodInfoDto greater = list.get(0);
+            Integer greaterSort = greater.getSort();
+            foodInfoDto.setSort(greaterSort);
+            greater.setSort(sort);
+            foodInfoDao.update(greater);
+            foodInfoDao.update(foodInfoDto);
+        }
+        return "redirect:/queryFoodList.do?kind_id=" + kind_id;
+    }
+
+    @RequestMapping(value = "upFoodKind")
+    public String upFoodKind(HttpServletRequest request, HttpServletResponse response){
+        Long kind_id = Long.parseLong(request.getParameter("food_kind_id"));
+        FoodKindDto foodKindDto = foodKindDao.queryById(kind_id);
+        Integer sort = foodKindDto.getSort();
+        List<FoodKindDto> list = foodKindDao.listLtBySort(sort);
+        if(list != null && list.size() > 0){
+            FoodKindDto little = list.get(list.size() - 1);
+            Integer littleSort = little.getSort();
+            little.setSort(sort);
+            foodKindDto.setSort(littleSort);
+            foodKindDao.update(little);
+            foodKindDao.update(foodKindDto);
+        }
+        return "redirect:/queryFoodKindList.do";
+    }
+
+    @RequestMapping(value = "downFoodKind")
+    public String downFoodKind(HttpServletRequest request, HttpServletResponse response){
+        Long food_kind_id = Long.parseLong(request.getParameter("food_kind_id"));
+        FoodKindDto foodKindDto = foodKindDao.queryById(food_kind_id);
+        Integer sort = foodKindDto.getSort();
+        List<FoodKindDto> list = foodKindDao.listGtBySort(sort);
+        if(list != null && list.size() > 0){
+            FoodKindDto greater = list.get(0);
+            Integer greaterSort = greater.getSort();
+            greater.setSort(sort);
+            foodKindDto.setSort(greaterSort);
+            foodKindDao.update(greater);
+            foodKindDao.update(foodKindDto);
+        }
+        return "redirect:/queryFoodKindList.do";
+    }
+
     @RequestMapping(value = "delFoodInfoById")
     public String delFoodInfoById(HttpServletRequest request, HttpServletResponse response) {
         String food_id = request.getParameter("food_id");
@@ -160,7 +230,7 @@ public class FoodManagerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/queryFoodList.do";
+        return "redirect:/queryFoodList.do?kind_id=" + food_kind_id;
     }
 
     @RequestMapping(value = "createFoodKind")
@@ -256,14 +326,27 @@ public class FoodManagerController {
 
     @RequestMapping(value = "queryFoodList")
     public ModelAndView queryFoodList(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
-        List<FoodInfoDto> foodInfoDtoList = foodInfoDao.list();
+        List<FoodKindDto> foodKindDtos = foodKindDao.list();
+        List<FoodInfoDto> foodInfoDtoList;
+        if(request.getParameter("kind_id") != null){
+            foodInfoDtoList = foodInfoDao.listByKindId(Long.parseLong(request.getParameter("kind_id")));
+            for(int i=0;i<foodKindDtos.size();i++){
+                if(foodKindDtos.get(i).getFood_kind_id() == Long.parseLong(request.getParameter("kind_id"))){
+                    FoodKindDto tmp = foodKindDtos.get(i);
+                    foodKindDtos.remove(i);
+                    foodKindDtos.add(0,tmp);
+                    break;
+                }
+            }
+        }else {
+            foodInfoDtoList = foodInfoDao.listByKindId(foodKindDtos.get(0).getFood_kind_id());
+        }
         for (FoodInfoDto f : foodInfoDtoList) {
             f.setKind_name(foodKindDao.queryById(f.getKind_id()).getFood_kind_name());
         }
-        List<FoodKindDto> foodKindDtoList = foodKindDao.list();
         modelAndView.setViewName("foodInfoManager");
         modelAndView.addObject("foodInfoList", foodInfoDtoList);
-        modelAndView.addObject("foodKindList", foodKindDtoList);
+        modelAndView.addObject("foodKindList", foodKindDtos);
         return modelAndView;
     }
 

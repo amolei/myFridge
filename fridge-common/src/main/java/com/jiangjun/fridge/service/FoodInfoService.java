@@ -24,4 +24,8 @@ public interface FoodInfoService {
     public List<FoodInfoDto> listBySName(String keywords);
 
     public void update(FoodInfoDto foodInfoDto);
+
+    public List<FoodInfoDto> listLtBySort(FoodInfoDto foodInfoDto);
+
+    public List<FoodInfoDto> listGtBySort(FoodInfoDto foodInfoDto);
 }

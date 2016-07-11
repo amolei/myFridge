@@ -22,4 +22,8 @@ public interface IFoodKindDao {
     public void delFoodKindById(long kind_id);
 
     public void update(FoodKindDto foodKindDto);
+
+    public List<FoodKindDto> listLtBySort(Integer sort);
+
+    public List<FoodKindDto> listGtBySort(Integer sort);
 }

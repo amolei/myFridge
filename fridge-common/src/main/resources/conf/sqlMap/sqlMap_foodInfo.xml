@@ -12,12 +12,13 @@
         <result property="simple_name" column="simple_name"/>
         <result property="hot" column="hot"/>
         <result property="is_tmp" column="is_tmp"/>
+        <result property="sort" column="sort"/>
     </resultMap>
 
     <insert id="addFoodInfo" useGeneratedKeys="true" keyProperty="food_id">
         <![CDATA[
-            insert into food_info(kind_id,food_name,food_img,food_des,simple_name,hot,is_tmp)
-            VALUES (#{kind_id},#{food_name},#{food_img},#{food_des},#{simple_name},#{hot},#{is_tmp})
+            insert into food_info(kind_id,food_name,food_img,food_des,simple_name,hot,is_tmp,sort)
+            VALUES (#{kind_id},#{food_name},#{food_img},#{food_des},#{simple_name},#{hot},#{is_tmp},#{sort})
         ]]>
     </insert>
 
@@ -26,9 +27,21 @@
             select * from food_info order by id ASC
         ]]>
      </select>
+    <select id="listLtBySort" resultMap="foodInfoMap">
+        <![CDATA[
+          SELECT * from food_info where kind_id = #{kind_id} and sort < #{sort} order by sort
+        ]]>
+    </select>
+
+    <select id="listGtBySort" resultMap="foodInfoMap">
+        <![CDATA[
+          SELECT * from food_info where kind_id = #{kind_id} and sort > #{sort} order by sort
+        ]]>
+    </select>
+
     <select id="listByKindId" resultMap="foodInfoMap">
         <![CDATA[
-            select * from food_info where kind_id = #{kind_id} and is_tmp != 1
+            select * from food_info where kind_id = #{kind_id} and (is_tmp IS null || is_tmp != 1) order by sort
         ]]>
     </select>
     <select id="getFoodInfoById" resultMap="foodInfoMap">
@@ -48,7 +61,7 @@
     </select>
     <select id="listBySName" resultMap="foodInfoMap">
         <![CDATA[
-          select * from food_info where simple_name like CONCAT('%',#{keywords},'%')
+          select * from food_info where simple_name like CONCAT('%',#{keywords},'%') order by sort
         ]]>
     </select>
     <delete id="delFoodInfoById">
@@ -64,7 +77,8 @@
            food_img = #{food_img},
            hot = #{hot},
            simple_name = #{simple_name},
-           is_tmp = #{is_tmp}
+           is_tmp = #{is_tmp},
+           sort = #{sort}
           where id = #{food_id}
         ]]>
     </update>

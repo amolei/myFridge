@@ -1,6 +1,7 @@
 package com.jiangjun.fridge.service.impl;
 
 import com.jiangjun.fridge.dao.IFoodInfoDao;
+import com.jiangjun.fridge.dao.IFoodKindDao;
 import com.jiangjun.fridge.dto.FoodInfoDto;
 import com.jiangjun.fridge.service.FoodInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,16 @@ public class FoodInfoServiceImpl implements FoodInfoService {
     @Autowired
     private IFoodInfoDao foodInfoDao;
 
+    @Autowired
+    private IFoodKindDao foodKindDao;
+
     public void addFoodInfo(FoodInfoDto foodInfoDto) {
+        List<FoodInfoDto> list = foodInfoDao.listByKindId(foodInfoDto.getKind_id());
+        if(list != null && list.size() > 0){
+            foodInfoDto.setSort(list.get(list.size() - 1).getSort() + 1);
+        }else {
+            foodInfoDto.setSort(1);
+        }
         foodInfoDao.addFoodInfo(foodInfoDto);
     }
 
@@ -47,5 +57,13 @@ public class FoodInfoServiceImpl implements FoodInfoService {
 
     public void update(FoodInfoDto foodInfoDto){
         foodInfoDao.update(foodInfoDto);
+    }
+
+    public List<FoodInfoDto> listLtBySort(FoodInfoDto foodInfoDto){
+        return foodInfoDao.listLtBySort(foodInfoDto);
+    }
+
+    public List<FoodInfoDto> listGtBySort(FoodInfoDto foodInfoDto){
+        return foodInfoDao.listGtBySort(foodInfoDto);
     }
 }

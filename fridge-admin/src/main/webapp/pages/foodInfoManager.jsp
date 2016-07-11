@@ -69,11 +69,10 @@
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                选择分类
+                                ${foodKindList.get(0).food_kind_name}
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="javascript:choseKind(-1,'选择分类 ');">选择分类</a></li>
                                 <c:forEach items="${foodKindList}" var="item" varStatus="status">
                                     <li>
                                         <a href="javascript:choseKind(${item.food_kind_id},'${item.food_kind_name}')">${item.food_kind_name}</a>
@@ -95,6 +94,7 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
+                                    <th>序号</th>
                                     <th>名称</th>
                                     <th>描述</th>
                                     <th>简称</th>
@@ -114,6 +114,7 @@
                                             <tr class="event">
                                         </c:otherwise>
                                     </c:choose>
+                                    <td>${status.count}</td>
                                     <td>${item.food_name}</td>
                                     <td title="${item.food_des }">${item.food_des}</td>
                                     <td>${item.simple_name}</td>
@@ -127,6 +128,12 @@
                                         </c:choose>
                                     </td>
                                     <td class="center">
+                                        <button type="button" class="btn btn-primary"
+                                                onclick="window.location.href='upFoodInfo.do?food_id=' + ${item.food_id}">上移
+                                        </button>
+                                        <button type="button" class="btn btn-primary"
+                                                onclick="window.location.href='downFoodInfo.do?food_id=' + ${item.food_id}">下移
+                                        </button>
                                         <button type="button" class="btn btn-primary"
                                                 onclick="openModifyModal(${item.food_id});">修改
                                         </button>
@@ -320,21 +327,21 @@
 <script src="<%=contextPath%>/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
 <!-- DataTables JavaScript -->
-<script src="<%=contextPath%>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="<%=contextPath%>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<%--<script src="<%=contextPath%>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>--%>
+<%--<script src="<%=contextPath%>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>--%>
 
 <!-- Custom Theme JavaScript -->
 <script src="<%=contextPath%>/dist/js/sb-admin-2.js"></script>
-<script src="<%=contextPath%>/js/foodInfo.js"></script>
+<script src="<%=contextPath%>/js/foodInfo.js?time=2"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
+<%--<script>--%>
+    <%--$(document).ready(function () {--%>
+        <%--$('#dataTables-example').DataTable({--%>
+            <%--responsive: true--%>
+        <%--});--%>
+    <%--});--%>
+<%--</script>--%>
 
 </body>
 

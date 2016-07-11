@@ -17,6 +17,7 @@ public class FoodInfoDto {
     private String simple_name;
     private Integer hot;
     private Integer is_tmp;
+    private Integer sort;
 
     private FoodKindDto foodKindDto;
     private String kind_name;
@@ -101,5 +102,13 @@ public class FoodInfoDto {
 
     public void setIs_tmp(Integer is_tmp) {
         this.is_tmp = is_tmp;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

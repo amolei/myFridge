@@ -27,9 +27,9 @@ public class FoodKindTest {
     @Test
     public void createTest() {
         FoodKindDto foodKindDto = new FoodKindDto();
-        foodKindDto.setFood_kind_name("其他");
-        foodKindDto.setFood_kind_info("其他分类");
-        foodKindDto.setSimple_name("QT");
+        foodKindDto.setFood_kind_name("bb");
+        foodKindDto.setFood_kind_info("bb");
+        foodKindDto.setSimple_name("abbbaa");
 //        foodKindDto.setFood_kind_img("hx.png");
         foodKindService.addFoodKind(foodKindDto);
     }
@@ -37,13 +37,19 @@ public class FoodKindTest {
     @Test
     public void createList() {
         List<FoodKindDto> list = foodKindService.list();
-        for (FoodKindDto f : list) {
-            try {
-                System.out.println(f.getFood_kind_id() + ">>>" + f.getFood_kind_name() + ";" + f.getFood_kind_info() + ";" + f.getFood_kind_img());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        for(int i=0;i<list.size();i++){
+            FoodKindDto f = list.get(i);
+            f.setSort(i + 1);
+            foodKindService.update(f);
         }
+//        for (FoodKindDto f : list) {
+//            try {
+//
+//                System.out.println(f.getFood_kind_id() + ">>>" + f.getFood_kind_name() + ";" + f.getFood_kind_info() + ";" + f.getFood_kind_img());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
     }
 }

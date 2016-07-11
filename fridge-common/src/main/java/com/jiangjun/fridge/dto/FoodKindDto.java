@@ -14,6 +14,7 @@ public class FoodKindDto {
     private String food_kind_info;
     private String food_kind_img;
     private String simple_name;
+    private Integer sort;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,5 +56,13 @@ public class FoodKindDto {
 
     public void setFood_kind_img(String food_kind_img) {
         this.food_kind_img = food_kind_img;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

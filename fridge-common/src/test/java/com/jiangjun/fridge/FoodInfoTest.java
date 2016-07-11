@@ -39,9 +39,14 @@ public class FoodInfoTest {
         for(FoodKindDto fk:foodKindDtos){
             List<FoodInfoDto> fi = foodInfoService.listByKindId(fk.getFood_kind_id());
             if(fi != null && fi.size() > 0){
-                for(FoodInfoDto fid:fi){
-                    System.out.println(fid.getFood_id() + "" + fid.getFood_name() + fid.getKind_id());
+                for(int i=0;i<fi.size();i++){
+                    FoodInfoDto foodInfoDto = fi.get(i);
+                    foodInfoDto.setSort(i + 1);
+                    foodInfoService.update(foodInfoDto);
                 }
+//                for(FoodInfoDto fid:fi){
+//                    System.out.println(fid.getFood_id() + "" + fid.getFood_name() + fid.getKind_id());
+//                }
             }
         }
     }
@@ -58,12 +63,12 @@ public class FoodInfoTest {
     public void createAdd(){
         List<FoodKindDto> foodKindDtos = foodKindService.list();
         for(FoodKindDto fk:foodKindDtos){
-            if(fk.getSimple_name().equals("SG")){
+            if(fk.getFood_kind_id() == 30){
                 //水果
                 FoodInfoDto foodInfoDto = new FoodInfoDto();
-                foodInfoDto.setFood_name("西瓜");
-                foodInfoDto.setSimple_name("XG");
-                foodInfoDto.setFood_des("西瓜");
+                foodInfoDto.setFood_name("ff");
+                foodInfoDto.setSimple_name("ff");
+                foodInfoDto.setFood_des("ff");
                 foodInfoDto.setFood_img("/images/xihongshi.9.png");
                 foodInfoDto.setHot(0);
                 foodInfoDto.setKind_id(fk.getFood_kind_id());

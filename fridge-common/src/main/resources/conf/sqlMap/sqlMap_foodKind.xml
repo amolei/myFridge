@@ -13,15 +13,25 @@
 
     <insert id="addFoodKind">
         <![CDATA[
-            insert into food_kind(food_kind_name,food_kind_info,food_kind_img,simple_name)
-            VALUES (#{food_kind_name},#{food_kind_info},#{food_kind_img},#{simple_name})
+            insert into food_kind(food_kind_name,food_kind_info,food_kind_img,simple_name,sort)
+            VALUES (#{food_kind_name},#{food_kind_info},#{food_kind_img},#{simple_name},#{sort})
         ]]>
     </insert>
     <select id="list" resultMap="foodKindMap">
         <![CDATA[
-            select * from food_kind order by id ASC
+            select * from food_kind order by sort ASC
         ]]>
      </select>
+    <select id="listLtBySort" resultMap="foodKindMap">
+        <![CDATA[
+          select * from food_kind where sort < #{sort} order by sort
+        ]]>
+    </select>
+    <select id="listGtBySort" resultMap="foodKindMap">
+        <![CDATA[
+          select * from food_kind where sort > #{sort} order by sort
+        ]]>
+    </select>
 
     <select id="queryById" resultMap="foodKindMap">
         <![CDATA[
@@ -47,7 +57,8 @@
             food_kind_name = #{food_kind_name},
             food_kind_info = #{food_kind_info},
             simple_name = #{simple_name},
-            food_kind_img = #{food_kind_img}
+            food_kind_img = #{food_kind_img},
+            sort = #{sort}
 			where id = #{food_kind_id}
         ]]>
     </update>

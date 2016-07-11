@@ -23,6 +23,12 @@ public class FoodKindServiceImpl implements FoodKindService {
     }
 
     public void addFoodKind(FoodKindDto foodKindDto) {
+        List<FoodKindDto> list = foodKindDao.list();
+        if(list != null && list.size() > 0){
+            foodKindDto.setSort(list.get(list.size() - 1).getSort() + 1);
+        }else {
+            foodKindDto.setSort(1);
+        }
         foodKindDao.addFoodKind(foodKindDto);
     }
 
@@ -39,4 +45,12 @@ public class FoodKindServiceImpl implements FoodKindService {
     }
 
     public void update(FoodKindDto foodKindDto){foodKindDao.update(foodKindDto);}
+
+    public List<FoodKindDto> listLtBySort(Integer sort){
+        return foodKindDao.listLtBySort(sort);
+    }
+
+    public List<FoodKindDto> listGtBySort(Integer sort){
+        return foodKindDao.listGtBySort(sort);
+    }
 }
