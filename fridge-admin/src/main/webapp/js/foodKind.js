@@ -67,3 +67,4 @@ function openModifyModal(id) {
 function submitModifyModalForm() {
     $('#modifyModalFoodKindForm').submit();
 }
+

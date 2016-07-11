@@ -14,7 +14,7 @@ function choseKind(id,name){
                 if(element.hot == 1){
                     hot = "是";
                 }
-                txt = txt + "<tr><td>" + element.food_name + "</td><td>" + element.food_des + "</td><td>" + element.simple_name + "</td><td>" + element.kind_name + "</td><td><img width=\"80\" height=\"80\" src=\"http://139.196.171.209/" + element.food_img + "\"></td><td>" + hot + "</td><td><button type=\"button\" class=\"btn btn-primary\" onclick=\"openModifyModal(" + element.food_id + ");\">修改</button><button onclick=\"delFoodInfo(" + element.food_id + ");\" class=\"btn btn-warning delZoneButton\" type=\"button\">删除</button></td></tr>";
+                txt = txt + "<tr><td>" + num + "</td><td>" + element.food_name + "</td><td>" + element.food_des + "</td><td>" + element.simple_name + "</td><td>" + element.kind_name + "</td><td><img width=\"80\" height=\"80\" src=\"http://139.196.171.209/" + element.food_img + "\"></td><td>" + hot + "</td><td><button type=\"button\" class=\"btn btn-primary\" onclick='window.location.href=upFoodInfo.do?food_id='" + element.food_id + ">上移</button><button type=\"button\" class=\"btn btn-primary\" onclick='window.location.href=downFoodInfo.do?food_id='" + element.food_id + ">下移</button><button type=\"button\" class=\"btn btn-primary\" onclick=\"openModifyModal(" + element.food_id + ");\">修改</button><button onclick=\"delFoodInfo(" + element.food_id + ");\" class=\"btn btn-warning delZoneButton\" type=\"button\">删除</button></td></tr>";
             });
             $("table tbody").html(txt);
         },
