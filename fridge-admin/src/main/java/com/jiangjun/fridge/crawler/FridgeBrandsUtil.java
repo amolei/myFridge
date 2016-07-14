@@ -117,7 +117,8 @@ public class FridgeBrandsUtil {
     }
 
     public static void main(String[] args){
-        FridgeBrandsUtil util = new FridgeBrandsUtil();
-        util.get(path);
+//        FridgeBrandsUtil util = new FridgeBrandsUtil();
+//        util.get(path);
+        System.out.println("啊啊啊");
     }
 }
