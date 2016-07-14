@@ -24,4 +24,26 @@
             select * from fridge_brand order by id ASC
         ]]>
      </select>
+    <select id="getById" resultMap="fridgeBrandMap">
+        <![CDATA[
+          select * from fridge_brand where id = #{brand_id}
+        ]]>
+    </select>
+    <delete id="delFridgeBrand">
+        <![CDATA[
+          DELETE from fridge_brand where id = #{brand_id}
+        ]]>
+    </delete>
+    <update id="update">
+        <![CDATA[
+          update fridge_brand set
+          fridge_name = #{fridge_name},
+          fridge_logo = #{fridge_logo},
+          fridge_mobile = #{fridge_mobile},
+          keep_info = #{keep_info},
+          keep_time = #{keep_time},
+          fridge_pinyin = #{fridge_pinyin}
+          where id = #{brand_id}
+        ]]>
+    </update>
 </mapper>

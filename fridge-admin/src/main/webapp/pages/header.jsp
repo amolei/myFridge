@@ -51,7 +51,7 @@
           <!-- /input-group -->
         </li>
         <li>
-          <a href="pages/index.jsp"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+          <a href="index.jsp"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
         </li>
         <li>
           <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 食物管理<span class="fa arrow"></span></a>
@@ -61,6 +61,18 @@
             </li>
             <li>
               <a href="<%=contextPath%>/queryFoodList.do">食物管理</a>
+            </li>
+          </ul>
+          <!-- /.nav-second-level -->
+        </li>
+        <li>
+          <a href="#"><i class="fa fa-table fa-fw"></i> 冰箱管理<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+            <li>
+              <a href="<%=contextPath%>/queryFridgeBrand.do">品牌管理</a>
+            </li>
+            <li>
+              <a href="#">商家管理</a>
             </li>
           </ul>
           <!-- /.nav-second-level -->
