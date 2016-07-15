@@ -24,4 +24,16 @@ public class FridgeBrandServiceImpl implements FridgeBrandService {
     public List<FridgeBrandDto> list() {
         return fridgeBrandDao.list();
     }
+
+    public FridgeBrandDto getById(Long brand_id) {
+        return fridgeBrandDao.getById(brand_id);
+    }
+
+    public void delFridgeBrand(Long brand_id){
+        fridgeBrandDao.delFridgeBrand(brand_id);
+    }
+
+    public void update(FridgeBrandDto fridgeBrandDto){
+        fridgeBrandDao.update(fridgeBrandDto);
+    }
 }

@@ -31,4 +31,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfoDto queryByUserId(long user_id){
         return userInfoDao.queryByUserId(user_id);
     }
+
+    public UserInfoDto login(String user_name, String password) {
+        return userInfoDao.login(user_name,password);
+    }
 }

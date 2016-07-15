@@ -33,4 +33,9 @@
             select * from user_info where id = #{user_id}
         ]]>
     </select>
+    <select id="login" resultMap="userInfoMap">
+        <![CDATA[
+          select * from user_info where user_name = #{user_name} and password = #{password}
+        ]]>
+    </select>
 </mapper>

@@ -20,6 +20,7 @@ public class UserManagerController {
     @Autowired
     private IUserInfoDao userInfoDao;
 
+
     @RequestMapping(value = "queryUserInfoList")
     public ModelAndView queryUserList(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response){
         List<UserInfoDto> list = userInfoDao.list();
