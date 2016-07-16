@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.jiangjun.fridge.crawler.FridgeBrandsUtil;
 import com.jiangjun.fridge.crawler.ImageUtil;
 import com.jiangjun.fridge.dao.IFridgeBrandDao;
+import com.jiangjun.fridge.dao.IFridgeSellerDao;
 import com.jiangjun.fridge.dto.FoodInfoDto;
 import com.jiangjun.fridge.dto.FridgeBrandDto;
+import com.jiangjun.fridge.dto.FridgeSellerDto;
 import com.jiangjun.fridge.util.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,13 +32,105 @@ import java.util.List;
 public class FridgeManagerController {
 
     public static String BRAND_FROM_JD = "http://list.jd.com/list.html?cat=737,794,878&md=1&my=list_brand";
-    public static String rootPath = "/opt/content";
-//    public static String rootPath = "C:\\Users\\jiangjun\\Documents";
-    public static String imgPath = "/brand_logo/";
-//    public static String imgPath = "\\brand_logo\\";
+//    public static String rootPath = "/opt/content";
+    public static String rootPath = "C:\\Users\\jiangjun\\Documents";
+//    public static String imgPath = "/brand_logo/";
+    public static String imgPath = "\\brand_logo\\";
 
     @Autowired
     private IFridgeBrandDao fridgeBrandDao;
+
+    @Autowired
+    private IFridgeSellerDao fridgeSellerDao;
+
+    @RequestMapping(value = "updateFridgeSeller")
+    public String updateFridgeSeller(HttpServletRequest request,HttpServletResponse response){
+        Long seller_id = Long.parseLong(request.getParameter("seller_id"));
+        String seller_name = request.getParameter("modifyModal_seller_name");
+        String seller_address = request.getParameter("modifyModal_seller_address");
+        String seller_mobile = request.getParameter("modifyModal_seller_mobile");
+        Integer seller_level = Integer.parseInt(request.getParameter("modifyModal_seller_level"));
+        FridgeSellerDto fridgeSellerDto = fridgeSellerDao.getById(seller_id);
+        fridgeSellerDto.setSeller_name(seller_name);
+        fridgeSellerDto.setSeller_address(seller_address);
+        fridgeSellerDto.setSeller_level(seller_level);
+        fridgeSellerDto.setSeller_mobile(seller_mobile);
+        fridgeSellerDao.update(fridgeSellerDto);
+        return "redirect:/queryFridgeSeller.do";
+    }
+
+    @RequestMapping(value = "getFridgeSellerById")
+    public void getFridgeSellerById(HttpServletRequest request,HttpServletResponse response){
+        Long seller_id = Long.parseLong(request.getParameter("seller_id"));
+        FridgeSellerDto fridgeSellerDto = fridgeSellerDao.getById(seller_id);
+        try {
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            item.put("result","1");
+            item.put("fridgeSeller", fridgeSellerDto);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "delFridgeSeller")
+    public String delFridgeSeller(HttpServletRequest request,HttpServletResponse response){
+        Long seller_id = Long.parseLong(request.getParameter("seller_id"));
+        fridgeSellerDao.delById(seller_id);
+        return "redirect:/queryFridgeSeller.do";
+    }
+
+    /**
+     * 验证商家是否已经存在
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "validateSellerName")
+    public void validateSellerName(HttpServletRequest request,HttpServletResponse response){
+        int result = 0;
+        String seller_name = request.getParameter("seller_name");
+        List<FridgeSellerDto> list = fridgeSellerDao.listByName(seller_name);
+        if(list != null && list.size() > 0){
+            result = 1;
+        }
+        try {
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("text/json; charset=utf-8");
+            JSONObject item = new JSONObject();
+            item.put("flag", result);
+            response.getWriter().write(item.toJSONString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @RequestMapping(value = "addFridgeSeller")
+    public String addFridgeSeller(HttpServletRequest request,HttpServletResponse response){
+        String seller_name = request.getParameter("seller_name");
+        String seller_address = request.getParameter("seller_address");
+        Integer seller_level = Integer.parseInt(request.getParameter("seller_level"));
+        String seller_mobile = request.getParameter("seller_mobile");
+        FridgeSellerDto fridgeSellerDto = new FridgeSellerDto();
+        fridgeSellerDto.setSeller_name(seller_name);
+        fridgeSellerDto.setSeller_address(seller_address);
+        fridgeSellerDto.setSeller_mobile(seller_mobile);
+        fridgeSellerDto.setSeller_level(seller_level);
+        fridgeSellerDao.add(fridgeSellerDto);
+        return "redirect:/queryFridgeSeller.do";
+    }
+
+    @RequestMapping(value = "queryFridgeSeller")
+    public ModelAndView queryFridgeSeller(ModelAndView modelAndView,HttpServletRequest request, HttpServletResponse response){
+        List<FridgeSellerDto> list = fridgeSellerDao.list();
+        modelAndView.setViewName("fridgeSellerManager");
+        modelAndView.addObject("fridgeSellers",list);
+        return modelAndView;
+    }
 
     @RequestMapping(value = "getFridgeBrandById")
     public void getFridgeBrandById(HttpServletRequest request, HttpServletResponse response){

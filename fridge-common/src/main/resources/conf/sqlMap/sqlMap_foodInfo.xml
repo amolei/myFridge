@@ -75,6 +75,7 @@
            food_name = #{food_name},
            food_des = #{food_des},
            food_img = #{food_img},
+           kind_id = #{kind_id},
            hot = #{hot},
            simple_name = #{simple_name},
            is_tmp = #{is_tmp},

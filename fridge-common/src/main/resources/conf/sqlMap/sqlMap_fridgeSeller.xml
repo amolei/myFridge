@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IFridgeSellerDao">
+    <resultMap type="com.jiangjun.fridge.dto.FridgeSellerDto" id="fridgeSellerMap">
+        <id property="seller_id" column="id"/>
+        <result property="seller_name" column="seller_name"/>
+        <result property="seller_address" column="seller_address"/>
+        <result property="seller_level" column="seller_level"/>
+        <result property="seller_mobile" column="seller_mobile"/>
+    </resultMap>
+
+    <insert id="add">
+        <![CDATA[
+			insert into fridge_seller(seller_name,seller_address,seller_level,seller_mobile)
+			values(#{seller_name},#{seller_address},#{seller_level},#{seller_mobile})
+        ]]>
+    </insert>
+
+    <select id="list" resultMap="fridgeSellerMap">
+        <![CDATA[
+
+          select * from fridge_seller ORDER by id
+
+        ]]>
+    </select>
+
+    <select id="listByName" resultMap="fridgeSellerMap">
+        <![CDATA[
+          select * from fridge_seller where seller_name = #{seller_name}
+        ]]>
+    </select>
+
+    <select id="getById" resultMap="fridgeSellerMap">
+        <![CDATA[
+          select * from fridge_seller where id = #{seller_id}
+        ]]>
+    </select>
+
+    <delete id="delById">
+        <![CDATA[
+          delete from fridge_seller where id = #{seller_id}
+        ]]>
+    </delete>
+
+    <update id="update">
+        <![CDATA[
+          update fridge_seller set
+          seller_name = #{seller_name},
+          seller_address = #{seller_address},
+          seller_level = #{seller_level},
+          seller_mobile = #{seller_mobile}
+          where id = #{seller_id}
+        ]]>
+    </update>
+</mapper>

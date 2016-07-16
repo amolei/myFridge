@@ -72,7 +72,7 @@
               <a href="<%=contextPath%>/queryFridgeBrand.do">品牌管理</a>
             </li>
             <li>
-              <a href="#">商家管理</a>
+              <a href="<%=contextPath%>/queryFridgeSeller.do">商家管理</a>
             </li>
           </ul>
           <!-- /.nav-second-level -->
