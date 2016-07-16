@@ -206,7 +206,7 @@
                         <label class="col-sm-3 control-label">分类名称</label>
 
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="modifyModal_food_kind_name" name="modifyModal_food_kind_name" placeholder="分类名称" readonly>
+                            <input type="text" class="form-control" id="modifyModal_food_kind_name" name="modifyModal_food_kind_name" placeholder="分类名称">
                         </div>
                     </div>
                     <div class="form-group">
