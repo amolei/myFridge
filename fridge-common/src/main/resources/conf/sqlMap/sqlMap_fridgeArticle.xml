@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IFridgeArticleDao">
+    <resultMap type="com.jiangjun.fridge.dto.FridgeArticle" id="fridgeArticleMap">
+        <id property="article_id" column="id"/>
+        <result property="channel_id" column="channel_id"/>
+        <result property="article_title" column="article_title"/>
+        <result property="source" column="source"/>
+        <result property="update_time" column="update_time"/>
+        <result property="article_type" column="article_type" />
+        <result property="content" column="content" />
+        <result property="content_path" column="content_path" />
+        <result property="images" column="images" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <insert id="add">
+        <![CDATA[
+			insert into fridge_article(channel_id,article_title,source,update_time,article_type,content,content_path,images,status)
+			values(#{channel_id},#{article_title},#{source},#{update_time},#{article_type},#{content},#{content_path},#{images},#{status})
+        ]]>
+    </insert>
+
+    <select id="listByTitleAndType" resultMap="fridgeArticleMap">
+        <![CDATA[
+          select * from fridge_article where article_title = #{title} and article_type = #{type} and status = 1
+        ]]>
+    </select>
+
+    <select id="listByPage" resultMap="fridgeArticleMap">
+        <![CDATA[
+          select * from fridge.fridge_article where status = 1 and id <= (select id from fridge.fridge_article where status = 1 order by id desc limit #{count},1) order by id desc limit #{pageSize}
+        ]]>
+    </select>
+</mapper>
