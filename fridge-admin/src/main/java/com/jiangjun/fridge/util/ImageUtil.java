@@ -1,4 +1,4 @@
-package com.jiangjun.fridge.crawler;
+package com.jiangjun.fridge.util;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -8,10 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by jiangjun on 2016/7/14.
@@ -45,7 +42,12 @@ public class ImageUtil {
                     }
                 }
                 String fileName = url.hashCode() + "." + type;
+                String foler = rootPath + imgPath;
                 String savePath = rootPath + imgPath + fileName;
+                File folderFile = new File(foler);
+                if(!folderFile.exists()){
+                    folderFile.mkdirs();
+                }
                 path = imgPath +fileName;
                 saveFile(result, savePath);
             }

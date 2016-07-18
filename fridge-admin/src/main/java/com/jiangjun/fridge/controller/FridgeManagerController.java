@@ -2,17 +2,14 @@ package com.jiangjun.fridge.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jiangjun.fridge.crawler.FridgeBrandsUtil;
-import com.jiangjun.fridge.crawler.ImageUtil;
+import com.jiangjun.fridge.util.ImageUtil;
 import com.jiangjun.fridge.dao.IFridgeBrandDao;
 import com.jiangjun.fridge.dao.IFridgeSellerDao;
-import com.jiangjun.fridge.dto.FoodInfoDto;
 import com.jiangjun.fridge.dto.FridgeBrandDto;
 import com.jiangjun.fridge.dto.FridgeSellerDto;
 import com.jiangjun.fridge.util.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -32,10 +29,10 @@ import java.util.List;
 public class FridgeManagerController {
 
     public static String BRAND_FROM_JD = "http://list.jd.com/list.html?cat=737,794,878&md=1&my=list_brand";
-//    public static String rootPath = "/opt/content";
-    public static String rootPath = "C:\\Users\\jiangjun\\Documents";
-//    public static String imgPath = "/brand_logo/";
-    public static String imgPath = "\\brand_logo\\";
+    public static String rootPath = "/opt/content";
+//    public static String rootPath = "C:\\Users\\jiangjun\\Documents";
+    public static String imgPath = "/brand_logo/";
+//    public static String imgPath = "\\brand_logo\\";
 
     @Autowired
     private IFridgeBrandDao fridgeBrandDao;
