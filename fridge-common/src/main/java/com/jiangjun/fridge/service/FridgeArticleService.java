@@ -12,7 +12,13 @@ public interface FridgeArticleService {
 
     public void add(FridgeArticle fridgeArticle);
 
+    public void update(FridgeArticle fridgeArticle);
+
     public List<FridgeArticle> listByTitleAndType(String title, int type);
 
     public List<FridgeArticle> listByPage(int count, int pageSize, int type);
+
+    public List<FridgeArticle> listByType(int type);
+
+    public FridgeArticle getById(long article_id);
 }

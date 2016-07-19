@@ -78,6 +78,18 @@
           <!-- /.nav-second-level -->
         </li>
         <li>
+          <a href="#"><i class="fa fa-edit fa-fw"></i> 文章管理<span class="fa arrow"></span></a>
+          <ul class="nav nav-second-level">
+            <li>
+              <a href="<%=contextPath%>/queryArticleList.do?type=1">菜谱管理</a>
+            </li>
+            <li>
+              <a href="#">发现管理</a>
+            </li>
+          </ul>
+          <!-- /.nav-second-level -->
+        </li>
+        <li>
           <a href="#"><i class="fa fa-files-o fa-fw"></i> APP管理<span class="fa arrow"></span></a>
           <ul class="nav nav-second-level">
             <li>

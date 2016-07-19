@@ -34,4 +34,32 @@
           select * from fridge.fridge_article where status = 1 and id <= (select id from fridge.fridge_article where status = 1 order by id desc limit #{count},1) order by id desc limit #{pageSize}
         ]]>
     </select>
+
+    <select id="listByType" resultMap="fridgeArticleMap">
+        <![CDATA[
+          select * from fridge_article where article_type = #{type} order by id desc
+        ]]>
+    </select>
+
+    <select id="getById" resultMap="fridgeArticleMap">
+        <![CDATA[
+          select * from fridge_article where id = #{article_id}
+        ]]>
+    </select>
+
+    <update id="update">
+        <![CDATA[
+          update fridge_article set
+          channel_id = #{channel_id},
+          article_title = #{article_title},
+          source = #{source},
+          update_time = #{update_time},
+          article_type = #{article_type},
+          content = #{content},
+          content_path = #{content_path},
+          images = #{images},
+          status = #{status}
+          where id = #{article_id}
+        ]]>
+    </update>
 </mapper>

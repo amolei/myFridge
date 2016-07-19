@@ -14,6 +14,12 @@ public interface IFridgeArticleDao {
 
     public void add(FridgeArticle fridgeArticle);
 
+    public FridgeArticle getById(long article_id);
+
+    public void update(FridgeArticle fridgeArticle);
+
+    public List<FridgeArticle> listByType(int type);
+
     public List<FridgeArticle> listByTitleAndType(@Param("title") String title, @Param("type") int type);
 
     /**

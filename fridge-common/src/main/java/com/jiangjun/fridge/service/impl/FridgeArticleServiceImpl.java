@@ -34,4 +34,16 @@ public class FridgeArticleServiceImpl implements FridgeArticleService {
         count = (count - 1) * pageSize;
         return fridgeArticleDao.listByPage(count, pageSize, type);
     }
+
+    public List<FridgeArticle> listByType(int type) {
+        return fridgeArticleDao.listByType(type);
+    }
+
+    public void update(FridgeArticle fridgeArticle){
+        fridgeArticleDao.update(fridgeArticle);
+    }
+    public FridgeArticle getById(long article_id){
+        return fridgeArticleDao.getById(article_id);
+    }
+
 }

@@ -20,7 +20,7 @@ public class FetchWeiboHandler implements Callable {
 
     private FridgeArticleService fridgeArticleService;
 
-        static String _ROOT_PATH = "/opt/content";
+    static String _ROOT_PATH = "/opt/content";
     static String _IMAGE_PATH = "/weibo/";
 //    static String _ROOT_PATH = "C:\\Users\\jiangjun\\Documents";
 //    static String _IMAGE_PATH = "\\weibo\\";
@@ -28,10 +28,11 @@ public class FetchWeiboHandler implements Callable {
 
     private FridgeArticle fridgeArticle;
 
-    public FetchWeiboHandler(FridgeArticle fridgeArticle) {
+    public FetchWeiboHandler(FridgeArticle fridgeArticle, FridgeArticleService fridgeArticleService) {
         this.fridgeArticle = fridgeArticle;
-        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"classpath:conf/spring/spring.xml", "classpath:conf/spring/spring-mybatis.xml"});
-        fridgeArticleService = (FridgeArticleService) context.getBean("fridgeArticleService");
+        this.fridgeArticleService  = fridgeArticleService;
+//        ApplicationContext context = new ClassPathXmlApplicationContext(new String[]{"classpath:conf/spring/spring.xml", "classpath:conf/spring/spring-mybatis.xml"});
+//        fridgeArticleService = (FridgeArticleService) context.getBean("fridgeArticleService");
     }
 
     public Object call() {
