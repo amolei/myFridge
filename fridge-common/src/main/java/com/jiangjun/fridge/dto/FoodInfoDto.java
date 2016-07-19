@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 /**
  * Created by jiangjun on 16/6/12.
+ * 食物信息
  */
 public class FoodInfoDto {
 
