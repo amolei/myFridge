@@ -10,12 +10,13 @@
         <result property="password" column="password" />
         <result property="image_path" column="image_path"/>
         <result property="update_time" column="update_time"/>
+        <result property="point" column="point" />
     </resultMap>
 
     <insert id="addUserInfo">
         <![CDATA[
-            insert into user_info(user_name,nick_name,password,image_path,update_time)
-            VALUES (#{user_name},#{nick_name},#{password},#{image_path},#{update_time})
+            insert into user_info(user_name,nick_name,password,image_path,update_time,point)
+            VALUES (#{user_name},#{nick_name},#{password},#{image_path},#{update_time},#{point})
         ]]>
     </insert>
     <select id="list" resultMap="userInfoMap">
@@ -38,4 +39,16 @@
           select * from user_info where user_name = #{user_name} and password = #{password}
         ]]>
     </select>
+    <update id="update">
+        <![CDATA[
+          update user_info set
+          user_name = #{user_name},
+          nick_name = #{nick_name},
+          password = #{password},
+          image_path = #{image_path},
+          update_time = #{update_time},
+          point = #{point}
+          where id = #{user_id}
+        ]]>
+    </update>
 </mapper>

@@ -21,4 +21,6 @@ public interface IUserInfoDao {
     public UserInfoDto queryByUserId(long user_id);
 
     public UserInfoDto login(@Param("user_name") String user_name, @Param("password") String password);
+
+    public void update(UserInfoDto userInfoDto);
 }

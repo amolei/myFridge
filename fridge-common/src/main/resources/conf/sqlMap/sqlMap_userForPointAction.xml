@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IUserForPointDao">
+    <resultMap type="com.jiangjun.fridge.dto.UserForPoint" id="userForPointMap">
+        <id property="point_id" column="id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="action_id" column="action_id" />
+        <result property="point" column="point" />
+    </resultMap>
+
+    <insert id="add">
+        <![CDATA[
+            insert into user_for_point(user_id,action_id,point)
+            VALUES (#{user_id},#{action_id},#{point})
+        ]]>
+    </insert>
+
+</mapper>

@@ -24,15 +24,20 @@ public class UserInfoServiceImpl implements UserInfoService {
     public List<UserInfoDto> list() {
         return userInfoDao.list();
     }
-    public UserInfoDto queryByUserName(String user_name){
+
+    public UserInfoDto queryByUserName(String user_name) {
         return userInfoDao.queryByUserName(user_name);
     }
 
-    public UserInfoDto queryByUserId(long user_id){
+    public UserInfoDto queryByUserId(long user_id) {
         return userInfoDao.queryByUserId(user_id);
     }
 
     public UserInfoDto login(String user_name, String password) {
-        return userInfoDao.login(user_name,password);
+        return userInfoDao.login(user_name, password);
+    }
+
+    public void update(UserInfoDto userInfoDto) {
+        userInfoDao.update(userInfoDto);
     }
 }

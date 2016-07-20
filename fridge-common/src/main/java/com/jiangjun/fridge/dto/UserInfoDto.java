@@ -16,6 +16,7 @@ public class UserInfoDto {
     private String password;
     private String image_path;
     private Date update_time;
+    private long point;//用户总积分
 
 
     @Id
@@ -66,5 +67,13 @@ public class UserInfoDto {
 
     public void setUpdate_time(Date update_time) {
         this.update_time = update_time;
+    }
+
+    public long getPoint() {
+        return point;
+    }
+
+    public void setPoint(long point) {
+        this.point = point;
     }
 }

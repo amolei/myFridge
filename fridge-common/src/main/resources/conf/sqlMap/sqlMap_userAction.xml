@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.IUserActionDao">
+    <resultMap type="com.jiangjun.fridge.dto.UserAction" id="userActionMap">
+        <id property="action_id" column="id"/>
+        <result property="article_id" column="article_id"/>
+        <result property="user_id" column="user_id"/>
+        <result property="content" column="content" />
+        <result property="update_time" column="update_time" />
+        <result property="action_type" column="action_type" />
+    </resultMap>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="action_id">
+        <![CDATA[
+            insert into user_action(article_id,user_id,content,update_time,action_type)
+            VALUES (#{article_id},#{user_id},#{content},#{update_time},#{action_type})
+        ]]>
+    </insert>
+    <select id="list" resultMap="userActionMap">
+        <![CDATA[
+            select * from user_action order by id ASC
+        ]]>
+     </select>
+
+</mapper>

@@ -18,4 +18,7 @@ public interface UserInfoService {
     public UserInfoDto queryByUserId(long user_id);
 
     public UserInfoDto login(String user_name,String password);
+
+    public void update(UserInfoDto userInfoDto);
+
 }
