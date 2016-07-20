@@ -25,7 +25,7 @@
 
     <select id="listByTitleAndType" resultMap="fridgeArticleMap">
         <![CDATA[
-          select * from fridge_article where article_title = #{title} and article_type = #{type} and status = 1
+          select * from fridge_article where article_title = #{title} and article_type = #{type}
         ]]>
     </select>
 
