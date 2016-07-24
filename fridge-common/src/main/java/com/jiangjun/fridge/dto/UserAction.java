@@ -13,6 +13,10 @@ public class UserAction {
     private Date update_time;
     private int action_type;//0是评论，1是点赞，2是收藏，3是浏览，4是分享
     private String content;//评论内容
+    private String user_name;
+    private String nick_name;
+    private Long comment_id;//回复的评论ID
+    private UserAction sourceComment;//被回复的评论
 
     public long getAction_id() {
         return action_id;
@@ -60,5 +64,37 @@ public class UserAction {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
+    public Long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public UserAction getSourceComment() {
+        return sourceComment;
+    }
+
+    public void setSourceComment(UserAction sourceComment) {
+        this.sourceComment = sourceComment;
     }
 }

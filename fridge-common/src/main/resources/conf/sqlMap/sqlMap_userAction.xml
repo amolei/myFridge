@@ -10,18 +10,33 @@
         <result property="content" column="content" />
         <result property="update_time" column="update_time" />
         <result property="action_type" column="action_type" />
+        <result property="comment_id" column="comment_id" />
     </resultMap>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="action_id">
         <![CDATA[
-            insert into user_action(article_id,user_id,content,update_time,action_type)
-            VALUES (#{article_id},#{user_id},#{content},#{update_time},#{action_type})
+            insert into user_action(article_id,user_id,content,update_time,action_type,comment_id)
+            VALUES (#{article_id},#{user_id},#{content},#{update_time},#{action_type},#{comment_id})
         ]]>
     </insert>
+    <select id="queryById" resultMap="userActionMap">
+        <![CDATA[
+          select * from user_action where id = #{action_id}
+        ]]>
+    </select>
     <select id="list" resultMap="userActionMap">
         <![CDATA[
             select * from user_action order by id ASC
         ]]>
      </select>
-
+    <select id="listByTypeAndArticleId" resultMap="userActionMap">
+        <![CDATA[
+          select * from user_action where action_type = #{action_type} and article_id = #{article_id}
+        ]]>
+    </select>
+    <select id="listByParam" resultMap="userActionMap">
+        <![CDATA[
+          select * from user_action where action_type = #{action_type} and article_id = #{article_id} and user_id = #{user_id}
+        ]]>
+    </select>
 </mapper>

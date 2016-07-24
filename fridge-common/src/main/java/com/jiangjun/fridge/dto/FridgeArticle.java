@@ -27,6 +27,22 @@ public class FridgeArticle {
     //状态，1是发布，0是未发布
     private String status;
 
+    //评论列表
+    private List<UserAction> comments;
+    //评论次数
+    private int commentSize;
+    //点赞的次数
+    private int likeSize;
+    //收藏的次数
+    private int storeSize;
+    //分享的次数
+    private int shareSize;
+    //是否点赞
+    private boolean isLike;
+    //是否收藏
+    private boolean isStore;
+
+
     private List<String> picUrlList;
 
     public Long getArticle_id() {
@@ -115,5 +131,61 @@ public class FridgeArticle {
 
     public void setPicUrlList(List<String> picUrlList) {
         this.picUrlList = picUrlList;
+    }
+
+    public List<UserAction> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<UserAction> comments) {
+        this.comments = comments;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+    public boolean isStore() {
+        return isStore;
+    }
+
+    public void setStore(boolean store) {
+        isStore = store;
+    }
+
+    public int getCommentSize() {
+        return commentSize;
+    }
+
+    public void setCommentSize(int commentSize) {
+        this.commentSize = commentSize;
+    }
+
+    public int getLikeSize() {
+        return likeSize;
+    }
+
+    public void setLikeSize(int likeSize) {
+        this.likeSize = likeSize;
+    }
+
+    public int getStoreSize() {
+        return storeSize;
+    }
+
+    public void setStoreSize(int storeSize) {
+        this.storeSize = storeSize;
+    }
+
+    public int getShareSize() {
+        return shareSize;
+    }
+
+    public void setShareSize(int shareSize) {
+        this.shareSize = shareSize;
     }
 }
