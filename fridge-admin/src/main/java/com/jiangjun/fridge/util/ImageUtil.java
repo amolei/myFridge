@@ -15,6 +15,44 @@ import java.io.*;
  */
 public class ImageUtil {
 
+    public static void saveImg(String url,String path){
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+        CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
+//        HttpHost httpHost = new HttpHost("10.19.110.31", 8080);
+
+        HttpGet httpGet = new HttpGet(url);
+        try {
+            HttpResponse response = closeableHttpClient.execute(httpGet);
+            int code = response.getStatusLine().getStatusCode();
+            if(code == 200) {
+                HttpEntity entity = response.getEntity();
+                Header contentType = entity.getContentType();
+                // 从content-type判断图片的格式
+                String type = getImageTypeByContentType(contentType.getValue());
+                byte[] result = EntityUtils.toByteArray(entity);
+                if ("".equals(type)) {
+                    // 从byte[]中获取图片格式
+                    type = getImageTypeByByteArray(result);
+                    if ("".equals(type)) {
+                        type = getImageType(url);
+                        if ("".equals(type)) {
+                            type = "jpg";
+                        }
+                    }
+                }
+                saveFile(result, path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeableHttpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static String saveImg(String url,String rootPath, String imgPath){
         String path = "";
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();

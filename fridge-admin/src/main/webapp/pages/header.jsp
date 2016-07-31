@@ -84,7 +84,10 @@
               <a href="<%=contextPath%>/queryArticleList.do?type=1">菜谱管理</a>
             </li>
             <li>
-              <a href="#">发现管理</a>
+              <a href="#">美食管理</a>
+            </li>
+            <li>
+              <a href="<%=contextPath%>/queryCrawlerSources.do">抓取源管理</a>
             </li>
           </ul>
           <!-- /.nav-second-level -->

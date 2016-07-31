@@ -45,6 +45,10 @@ public class FetchWeiboHandler implements Callable {
             List<String> picUrlList = fridgeArticle.getPicUrlList();
             for (int i = 0; i < picUrlList.size(); i++) {
                 String saveUrl = ImageUtil.saveImg(picUrlList.get(i), _ROOT_PATH, _IMAGE_PATH + today + File.separator);
+                //抓取原图
+                System.out.println(">>>>>>>" + saveUrl);
+                String souceUrl = _ROOT_PATH + saveUrl.split("\\.")[0] + "_mw" + "." + saveUrl.split("\\.")[1];
+                ImageUtil.saveImg(picUrlList.get(i).replaceAll("thumbnail", "mw690"),souceUrl);
                 if (i == (picUrlList.size() - 1)) {
                     sb.append(saveUrl);
                 } else {
