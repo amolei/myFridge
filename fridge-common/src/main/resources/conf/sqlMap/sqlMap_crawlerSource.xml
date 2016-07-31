@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangjun.fridge.dao.ICrawlerSourceDao">
+    <resultMap type="com.jiangjun.fridge.dto.CrawlerSource" id="crawlerSourceMap">
+        <id property="source_id" column="id"/>
+        <result property="source_name" column="source_name"/>
+        <result property="source_path" column="source_path"/>
+        <result property="source_type" column="source_type"/>
+    </resultMap>
+
+    <insert id="add">
+        <![CDATA[
+
+
+			insert into crawler_source(source_name,source_path,source_type)
+			values(#{source_name},#{source_path},#{source_type})
+
+
+        ]]>
+    </insert>
+
+    <select id="listByType" resultMap="crawlerSourceMap">
+        <![CDATA[
+          select * from crawler_source where source_type = #{source_type}
+        ]]>
+    </select>
+
+    <select id="list" resultMap="crawlerSourceMap">
+        <![CDATA[
+
+          select * from crawler_source
+
+        ]]>
+    </select>
+
+    <select id="getById" resultMap="crawlerSourceMap">
+        <![CDATA[
+
+          select * from crawler_source where id = #{source_id}
+
+        ]]>
+    </select>
+
+    <delete id="del">
+        <![CDATA[
+
+          DELETE from crawler_source where id = #{source_id}
+
+        ]]>
+    </delete>
+
+    <update id="update">
+        <![CDATA[
+          update crawler_source set
+            source_name = #{source_name},
+            source_path = #{source_path},
+            source_type = #{source_type}
+          where id = #{source_id}
+        ]]>
+    </update>
+</mapper>

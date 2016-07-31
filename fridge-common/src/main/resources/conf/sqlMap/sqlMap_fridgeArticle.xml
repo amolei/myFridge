@@ -5,6 +5,7 @@
 <mapper namespace="com.jiangjun.fridge.dao.IFridgeArticleDao">
     <resultMap type="com.jiangjun.fridge.dto.FridgeArticle" id="fridgeArticleMap">
         <id property="article_id" column="id"/>
+        <id property="user_id" column="user_id" />
         <result property="channel_id" column="channel_id"/>
         <result property="article_title" column="article_title"/>
         <result property="source" column="source"/>
@@ -18,8 +19,8 @@
 
     <insert id="add">
         <![CDATA[
-			insert into fridge_article(channel_id,article_title,source,update_time,article_type,content,content_path,images,status)
-			values(#{channel_id},#{article_title},#{source},#{update_time},#{article_type},#{content},#{content_path},#{images},#{status})
+			insert into fridge_article(user_id,channel_id,article_title,source,update_time,article_type,content,content_path,images,status)
+			values(#{user_id},#{channel_id},#{article_title},#{source},#{update_time},#{article_type},#{content},#{content_path},#{images},#{status})
         ]]>
     </insert>
 
@@ -51,6 +52,7 @@
         <![CDATA[
           update fridge_article set
           channel_id = #{channel_id},
+          user_id = #{user_id},
           article_title = #{article_title},
           source = #{source},
           update_time = #{update_time},

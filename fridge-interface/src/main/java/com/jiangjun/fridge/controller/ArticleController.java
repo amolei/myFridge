@@ -6,6 +6,7 @@ import com.jiangjun.fridge.bean.ResBody;
 import com.jiangjun.fridge.dto.FridgeArticle;
 import com.jiangjun.fridge.dto.UserAction;
 import com.jiangjun.fridge.dto.UserInfoDto;
+import com.jiangjun.fridge.dto.WeiboPic;
 import com.jiangjun.fridge.service.FridgeArticleService;
 import com.jiangjun.fridge.service.UserActionService;
 import com.jiangjun.fridge.service.UserInfoService;
@@ -35,6 +36,21 @@ public class ArticleController {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    /**
+     * 获取我的收藏列表
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "queryStoreByUser")
+    public void queryStoreByUser(HttpServletRequest request, HttpServletResponse response){
+        String jsonRequestStr = request.getParameter("jsonRequest");
+        logger.info("queryComments>>>" + jsonRequestStr);
+        JSONObject jsonRequest = JSONObject.parseObject(jsonRequestStr);
+        long user_id = jsonRequest.getLong("user_id");
+        int count = jsonRequest.getInteger("count");
+        int pageSize = jsonRequest.getInteger("pageSize");
+    }
 
     /**
      * 根据文章Id获取评论列表
@@ -91,13 +107,21 @@ public class ArticleController {
         List<FridgeArticle> list = fridgeArticleService.listByPage(count, pageSize, type);
         if(type == 1) {
             //九宫格文章
-            List<String> picList = new ArrayList<String>();
             for (FridgeArticle f : list) {
+                List<WeiboPic> weiboPics = new ArrayList<WeiboPic>();
                 String[] images = f.getImages().split(",");
                 for(String s:images){
-                    picList.add(s);
+                    WeiboPic weiboPic = new WeiboPic();
+                    weiboPic.setThumbnailPic(s);
+                    weiboPic.setSourcePic(s.split("\\.")[0] + "_mw." + s.split("\\.")[1]);
+                    weiboPics.add(weiboPic);
                 }
-                f.setPicUrlList(picList);
+                f.setWeiboPics(weiboPics);
+                UserInfoDto userInfoDto = userInfoService.queryByUserId(f.getUser_id());
+                if(userInfoDto != null){
+                    userInfoDto.setPassword("****");
+                    f.setUserInfo(userInfoDto);
+                }
                 //获取评论列表
                 List<UserAction> comments = userActionService.listByTypeAndArticleId(0,f.getArticle_id());
 //                for(UserAction u:comments){

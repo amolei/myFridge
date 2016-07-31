@@ -9,6 +9,7 @@ import java.util.List;
 public class FridgeArticle {
 
     private Long article_id;
+    private Long user_id;
     //频道ID
     private Long channel_id;
     //文章标题
@@ -44,6 +45,8 @@ public class FridgeArticle {
 
 
     private List<String> picUrlList;
+    private List<WeiboPic> weiboPics;
+    private UserInfoDto userInfo;
 
     public Long getArticle_id() {
         return article_id;
@@ -187,5 +190,29 @@ public class FridgeArticle {
 
     public void setShareSize(int shareSize) {
         this.shareSize = shareSize;
+    }
+
+    public List<WeiboPic> getWeiboPics() {
+        return weiboPics;
+    }
+
+    public void setWeiboPics(List<WeiboPic> weiboPics) {
+        this.weiboPics = weiboPics;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public UserInfoDto getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfoDto userInfo) {
+        this.userInfo = userInfo;
     }
 }
